@@ -1,0 +1,11 @@
+{
+  "extends": "@repo/ts/react.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@repo/ui/*": ["./src/*"]
+    }
+  },
+  "include": ["."],
+  "exclude": ["dist", "node_modules"]
+}

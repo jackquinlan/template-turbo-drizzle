@@ -1,0 +1,28 @@
+{
+  "name": "@repo/database",
+  "version": "0.0.1",
+  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "db:generate": "pnpx prisma generate",
+    "db:push": "prisma db push --skip-generate",
+    "db:seed": "pnpx prisma db seed"
+  },
+  "prisma": {
+    "seed": "ts-node --transpile-only ./seed.ts"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.2.0",
+    "ts-node": "^10.9.2"
+  },
+  "devDependencies": {
+    "@repo/ts": "workspace:*",
+    "@types/node": "^20",
+    "prisma": "^6.2.0"
+  }
+}
