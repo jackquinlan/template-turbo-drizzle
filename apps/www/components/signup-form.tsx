@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useTransition } from "react";
-
+import React, { useState, useTransition } from "react";
 import { z } from "zod";
 
+import { signUpWithCredentialsSchema } from "@repo/auth/validators";
+import { signIn } from "next-auth/react";
 import { Button } from "@repo/ui/components/button";
 import {
   Form,
@@ -17,23 +18,51 @@ import {
 } from "@repo/ui/components/form";
 import { Input } from "@repo/ui/components/input";
 
-const signupFormSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-});
 
 export function SignupForm() {
+  const [error, setError] = useState<string>("");
+  const [isLoading, startTransition] = useTransition();
   const form = useZodForm({ 
-    schema: signupFormSchema, 
-    defaultValues: { email: "", password: "" },
+    schema: signUpWithCredentialsSchema, 
+    defaultValues: { name: "", email: "", password: "" },
   });
-  async function handleSubmit(data: z.infer<typeof signupFormSchema>) {
-    console.log(data);
+  async function handleSubmit(data: z.infer<typeof signUpWithCredentialsSchema>) {
+    startTransition(async () => {
+      const res = await fetch("/api/auth/create-user", {
+        body: JSON.stringify({
+          ...data,
+        }),
+        method: "POST",
+      })
+      .then(async () => {
+        await signIn("credentials", {
+          ...data,
+          redirectTo: "/",
+        });
+      })
+      .catch((error) => setError(error.message));
+    });
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="grid gap-4">
+        <FormField 
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="John Doe"
+                  {...field}
+                /> 
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField 
           control={form.control}
           name="email"
@@ -65,8 +94,7 @@ export function SignupForm() {
                 /> 
               </FormControl>
               <FormDescription>
-                Must contain at least one uppercase letter, one number, and
-                one special character.
+                Password must be at least 8 characters long.
               </FormDescription>
               <FormMessage />
             </FormItem>
