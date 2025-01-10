@@ -1,12 +1,11 @@
-import type { Session, User } from "next-auth";
 import NextAuth from "next-auth";
+import type { JWT } from "next-auth/jwt";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import Credentials from "@auth/core/providers/credentials";
 import Github from "next-auth/providers/github";
 import { db } from "@repo/database";
 import { verifyPassword } from "./crypto";
 import { signInWithCredentialsSchema } from "./validators";
-
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(db),
@@ -31,15 +30,37 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           if (!await verifyPassword(user.hashedPassword, password)) {
             throw new Error("Invalid email or password");
           }
-          console.log("here");
           return {
             id: user.id, email: user.email, name: user.name
-          } satisfies User;
+          }; 
         } catch (error) {
           return null;
         }
       }
     }),
   ],
-  callbacks: {},
+  callbacks: {
+    session: async ({ session, token }) => {
+      return {
+        ...session,
+        user: {
+          id: token.id, email: token.email, name: token.name,
+        },
+      };
+    },
+    jwt: async ({ token }) => {
+      const dbUser = await db.user.findUnique({
+        where: { email: token.email },
+      });
+      if (!dbUser) {
+        return token;
+      }
+      return {
+        id: dbUser.id, email: dbUser.email, name: dbUser.name,
+      } as JWT;
+    },
+  },
+  session: {
+    strategy: "jwt",
+  },
 });

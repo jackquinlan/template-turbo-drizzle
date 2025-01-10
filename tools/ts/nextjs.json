@@ -10,4 +10,5 @@
     "jsx": "preserve",
     "noEmit": true
   },
+  "exclude": ["node_modules"]
 }

@@ -17,12 +17,12 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "@prisma/client": "^6.2.0",
+    "@prisma/client": "^6.2.1",
     "ts-node": "^10.9.2"
   },
   "devDependencies": {
     "@repo/ts": "workspace:*",
     "@types/node": "^20",
-    "prisma": "^6.2.0"
+    "prisma": "^6.2.1"
   }
 }
