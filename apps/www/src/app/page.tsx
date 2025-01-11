@@ -16,8 +16,8 @@ export default async function Home() {
         <Button size="sm" asChild>
           <Link href="/signup">Sign up</Link>
         </Button>
+        {session && (<pre>{JSON.stringify(session.user, null, 2)}</pre>)}
       </div>
-      <pre>{JSON.stringify(session?.user, null, 2)}</pre>
     </div>
   );
 }

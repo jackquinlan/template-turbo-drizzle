@@ -29,6 +29,12 @@ importers:
 
   apps/www:
     dependencies:
+      '@auth/core':
+        specifier: 0.37.2
+        version: 0.37.2
+      '@auth/prisma-adapter':
+        specifier: ^2.7.4
+        version: 2.7.4(@prisma/client@6.2.1(prisma@6.2.1))
       '@radix-ui/react-icons':
         specifier: ^1.3.2
         version: 1.3.2(react@19.0.0)
@@ -44,6 +50,9 @@ importers:
       '@repo/database':
         specifier: workspace:*
         version: link:../../packages/database
+      hash-wasm:
+        specifier: ^4.12.0
+        version: 4.12.0
       lucide-react:
         specifier: 0.469.0
         version: 0.469.0(react@19.0.0)

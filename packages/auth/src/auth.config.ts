@@ -1,14 +1,12 @@
-import NextAuth from "next-auth";
+import type { NextAuthConfig } from "next-auth";
 import type { JWT } from "next-auth/jwt";
-import { PrismaAdapter } from "@auth/prisma-adapter";
 import Credentials from "@auth/core/providers/credentials";
 import Github from "next-auth/providers/github";
 import { db } from "@repo/database";
 import { verifyPassword } from "./crypto";
 import { signInWithCredentialsSchema } from "./validators";
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
-  adapter: PrismaAdapter(db),
+export default { 
   providers: [
     Github,
     Credentials({
@@ -60,7 +58,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       } as JWT;
     },
   },
-  session: {
-    strategy: "jwt",
-  },
-});
+} satisfies NextAuthConfig;
