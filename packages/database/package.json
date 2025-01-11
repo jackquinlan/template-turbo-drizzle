@@ -5,24 +5,19 @@
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {
-    "db:generate": "pnpx prisma generate",
-    "db:push": "prisma db push --skip-generate",
-    "db:seed": "pnpx prisma db seed"
-  },
-  "prisma": {
-    "seed": "ts-node --transpile-only ./seed.ts"
-  },
+  "scripts": {},
   "exports": {
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "@prisma/client": "^6.2.1",
-    "ts-node": "^10.9.2"
+    "@libsql/client": "^0.14.0",
+    "dotenv": "^16.4.7",
+    "drizzle-orm": "^0.38.3"
   },
   "devDependencies": {
     "@repo/ts": "workspace:*",
-    "@types/node": "^20",
-    "prisma": "^6.2.1"
+    "drizzle-kit": "^0.30.1",
+    "next-auth": "5.0.0-beta.25",
+    "tsx": "^4.19.2"
   }
 }
