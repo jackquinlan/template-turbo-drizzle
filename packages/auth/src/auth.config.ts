@@ -2,7 +2,12 @@ import type { NextAuthConfig } from "next-auth";
 import type { JWT } from "next-auth/jwt";
 import Credentials from "@auth/core/providers/credentials";
 import Github from "next-auth/providers/github";
-import { db } from "@repo/database";
+
+import { 
+  db, 
+  eq, 
+  users,
+} from "@repo/database";
 import { verifyPassword } from "./crypto";
 import { signInWithCredentialsSchema } from "./validators";
 
@@ -19,8 +24,8 @@ export default {
         try {
           const { email, password } = await signInWithCredentialsSchema.parseAsync(credentials);
           // Get user from database and verify the hashedPassword
-          const user = await db.user.findUnique({
-            where: { email: email },
+          const user = await db.query.users.findFirst({ 
+            where: eq(users.email, email),
           });
           if (!user || !user.hashedPassword) {
             throw new Error("No user found");
@@ -47,14 +52,14 @@ export default {
       };
     },
     jwt: async ({ token }) => {
-      const dbUser = await db.user.findUnique({
-        where: { email: token.email },
+      const user = await db.query.users.findFirst({ 
+        where: eq(users.email, token.email),
       });
-      if (!dbUser) {
+      if (!user) {
         return token;
       }
       return {
-        id: dbUser.id, email: dbUser.email, name: dbUser.name,
+        id: user.id, email: user.email, name: user.name,
       } as JWT;
     },
   },

@@ -11,6 +11,7 @@
     "type-check": "turbo type-check"
   },
   "devDependencies": {
+    "@types/node": "20.8.0",
     "@repo/eslint-config": "workspace:*",
     "@repo/ts": "workspace:*",
     "prettier": "^3.4.2",

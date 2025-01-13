@@ -5,6 +5,7 @@ export const users = sqliteTable("user", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
+  hashedPassword: text("hashedPassword"),
   name: text("name"),
   emailVerified: integer("emailVerified", { mode: "timestamp_ms" }),
   email: text("email").unique(),
@@ -15,7 +16,7 @@ export const accounts = sqliteTable("account", {
   userId: text("userId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-  type: text("type").$type<AdapterAccount>().notNull(),
+  type: text("type").$type<AdapterAccount["type"]>().notNull(),
   providerAccountId: text("providerAccountId").notNull(),
   provider: text("provider").notNull(),
   access_token: text("access_token"),
@@ -41,7 +42,7 @@ export const sessions = sqliteTable("session", {
   expires: integer("expires", { mode: "timestamp_ms" }).notNull(),
 });
 
-export const verificationToken = sqliteTable("verification_token", {
+export const verificationTokens = sqliteTable("verification_token", {
   identifier: text("identifier").notNull(),
   token: text("token").notNull(),
   expires: integer("expires", { mode: "timestamp_ms" }).notNull(),
