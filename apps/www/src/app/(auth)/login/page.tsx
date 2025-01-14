@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { GalleryVerticalEnd } from "lucide-react";
 
-import { LoginForm } from "@/components/login-form";
+import { LoginCard } from "@/components/login-card";
 
 export default function LoginPage() {
   return (
@@ -18,7 +18,7 @@ export default function LoginPage() {
           </div>
           Acme Inc.
         </Link>
-        <LoginForm />
+        <LoginCard />
       </div>
     </div>
   );

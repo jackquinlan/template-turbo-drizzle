@@ -28,7 +28,7 @@ export function SignupForm() {
   });
   async function handleSubmit(data: z.infer<typeof signUpWithCredentialsSchema>) {
     startTransition(async () => {
-      const res = await fetch("/api/auth/create-user", {
+      await fetch("/api/auth/create-user", {
         body: JSON.stringify({
           ...data,
         }),
@@ -36,8 +36,7 @@ export function SignupForm() {
       })
       .then(async () => {
         await signIn("credentials", {
-          ...data,
-          redirectTo: "/",
+          ...data, redirectTo: "/",
         });
       })
       .catch((error) => setError(error.message));

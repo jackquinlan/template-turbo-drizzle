@@ -3,30 +3,22 @@ import { ZodError } from "zod";
 
 import { hashPassword } from "@repo/auth/crypto";
 import { signUpWithCredentialsSchema } from "@repo/auth/validators";
-import { db } from "@repo/database";
+import { db, eq, users } from "@repo/database";
 
 export async function POST(req: NextRequest) {
   try {
     const json = await req.json();
     const body = signUpWithCredentialsSchema.parse(json);
     // Check if the user already exists
-    const user = await db.user.findFirst({
-      where: {
-        email: body.email,
-      },
+    const user = await db.query.users.findFirst({
+      where: eq(users.email, body.email),
     });
     if (user) {
       return new Response("User already exists", {
         status: 409,
       });
     }
-    await db.user.create({
-      data: {
-        email: body.email,
-        name:  body.name,
-        hashedPassword: await hashPassword(body.password),
-      }
-    });
+    await db.insert(users).values({ email: body.email, name: body.name, hashedPassword: await hashPassword(body.password) });
     return new Response(null, {
       status: 200,
     });

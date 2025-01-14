@@ -5,7 +5,9 @@
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {},
+  "scripts": {
+    "generate": "drizzle-kit generate"
+  },
   "exports": {
     ".": "./src/index.ts"
   },
