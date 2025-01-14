@@ -5,6 +5,8 @@ import Link from "next/link";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { z } from "zod";
 
+import { signInWithCredentialsSchema } from "@repo/auth/validators";
+import { signIn } from "next-auth/react";
 import { cn } from "@repo/ui/lib/utils";
 import { Button } from "@repo/ui/components/button";
 import {

@@ -4,10 +4,12 @@
     "plugins": [{ "name": "next" }],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
+      "@/*": ["./src/*"],
       "@repo/ui/*": ["../../packages/ui/src/*"]
     },
+    "strictNullChecks": true,
+    "strict": true
   },
-  "include": ["next-env.d.ts", "src/**/*.ts", ".next/types/**/*.ts", "../../packages/auth/src/types/next-auth.d.ts"],
+  "include": ["next.config.mjs", "next-env.d.ts", "src", ".next/types/**/*.ts", "../../packages/auth/src/types/next-auth.d.ts"],
   "exclude": ["node_modules"]
 }
