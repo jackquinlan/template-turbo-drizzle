@@ -8,13 +8,6 @@ import { signInWithCredentialsSchema } from "@repo/auth/validators";
 import { signIn } from "next-auth/react";
 import { Button } from "@repo/ui/components/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@repo/ui/components/card";
-import {
   Form,
   FormControl,
   FormField,

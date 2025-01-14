@@ -12,12 +12,9 @@ import {
 import { OAuthButtonGroup } from "@/components/oauth-button-group";
 import { LoginForm } from "@/components/login-form";
 
-export function LoginCard({
-  className,
-  ...props
-}: React.ComponentPropsWithoutRef<"div">) {
+export function LoginCard() {
   return (
-    <div className="flex flex-col gap-3" {...props}>
+    <div className="flex flex-col gap-3">
       <Card>
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Welcome back</CardTitle>
