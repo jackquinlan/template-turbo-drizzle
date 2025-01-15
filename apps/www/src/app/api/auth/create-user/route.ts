@@ -18,7 +18,13 @@ export async function POST(req: NextRequest) {
         status: 409,
       });
     }
-    await db.insert(users).values({ email: body.email, name: body.name, hashedPassword: await hashPassword(body.password) });
+    await db
+      .insert(users)
+      .values({
+        email: body.email,
+        name: body.name,
+        hashedPassword: await hashPassword(body.password),
+      });
     return new Response(null, {
       status: 200,
     });

@@ -2,6 +2,7 @@
 
 import React, { useTransition, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { z } from "zod";
 
 import { signInWithCredentialsSchema } from "@repo/auth/validators";
@@ -16,68 +17,77 @@ import {
   FormMessage,
   useZodForm,
 } from "@repo/ui/components/form";
+import { Alert } from "@repo/ui/components/alert";
 import { Input } from "@repo/ui/components/input";
 
+import { Loading } from "@/components/loading";
+
 export function LoginForm() {
+  const router = useRouter();
   const [error, setError] = useState<string>("");
   const [isLoading, startTransition] = useTransition();
-  const form = useZodForm({ 
-    schema: signInWithCredentialsSchema, 
+  const form = useZodForm({
+    schema: signInWithCredentialsSchema,
     defaultValues: { email: "", password: "" },
   });
-  async function handleSubmit(data: z.infer<typeof signInWithCredentialsSchema>) {
+  async function handleSubmit(
+    data: z.infer<typeof signInWithCredentialsSchema>,
+  ) {
     startTransition(async () => {
-      await signIn("credentials", {
-        ...data, redirectTo: "/",
+      const res = await signIn("credentials", {
+        ...data,
+        redirect: false,
+        callbackUrl: "/",
       });
+      if (res?.error) {
+        setError("Invalid email or password");
+        return;
+      }
+      router.refresh();      
     });
   }
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="grid gap-4">
-        <FormField 
+        <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="m@example.com"
-                  type="email"
-                  {...field}
-                /> 
+                <Input placeholder="m@example.com" type="email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <FormField 
+        <FormField
           control={form.control}
           name="password"
           render={({ field }) => (
             <FormItem>
               <div className="flex justify-between items-center">
                 <FormLabel>Password</FormLabel>
-                  <Link
-                    href="/forgot-password"
-                    className="ml-auto text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </Link>
+                <Link
+                  href="/forgot-password"
+                  className="ml-auto text-sm underline-offset-4 hover:underline"
+                >
+                  Forgot your password?
+                </Link>
               </div>
               <FormControl>
-                <Input type="password" {...field} /> 
+                <Input type="password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+        {error && <Alert variant="destructive">{error}</Alert>}
         <Button type="submit" className="w-full my-2">
-          Sign in
+          {isLoading ? <Loading size="sm" /> : "Sign in"}
         </Button>
       </form>
     </Form>
   );
 }
-

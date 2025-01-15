@@ -31,10 +31,13 @@ export function SignupCard({
                 Or continue with
               </span>
             </div>
-            <SignupForm /> 
+            <SignupForm />
             <div className="text-center text-sm">
               Already have an account?{" "}
-              <Link href="/login" className="underline underline-offset-4 hover:text-primary">
+              <Link
+                href="/login"
+                className="underline underline-offset-4 hover:text-primary"
+              >
                 Sign in
               </Link>
             </div>
@@ -42,10 +45,9 @@ export function SignupCard({
         </CardContent>
       </Card>
       <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-primary">
-        By signing up, you agree to our <Link href="#">Terms of Service</Link> and{" "}
-        <Link href="#">Privacy Policy</Link>.
+        By signing up, you agree to our <Link href="#">Terms of Service</Link>{" "}
+        and <Link href="#">Privacy Policy</Link>.
       </div>
     </div>
   );
 }
-

@@ -25,18 +25,14 @@ export function ForgotPasswordForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="grid gap-4">
-        <FormField 
+        <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="m@example.com"
-                  type="email"
-                  {...field}
-                /> 
+                <Input placeholder="m@example.com" type="email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
