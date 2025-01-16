@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const signInWithCredentialsSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(8).max(32),
+  password: z.string().min(1, { message: "Password is required" }), // Don't want to limit on login
 });
 
 export const signUpWithCredentialsSchema = z.object({

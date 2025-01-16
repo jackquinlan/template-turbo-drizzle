@@ -20,6 +20,7 @@ import {
 import { Alert } from "@repo/ui/components/alert";
 import { Input } from "@repo/ui/components/input";
 
+import { signInWithCredentialsAction } from "@/actions/auth/login";
 import { Loading } from "@/components/loading";
 
 export function LoginForm() {
@@ -56,7 +57,12 @@ export function LoginForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="m@example.com" type="email" {...field} />
+                <Input 
+                  placeholder="m@example.com" 
+                  type="email" 
+                  disabled={isLoading} 
+                  {...field} 
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -77,14 +83,14 @@ export function LoginForm() {
                 </Link>
               </div>
               <FormControl>
-                <Input type="password" {...field} />
+                <Input type="password" disabled={isLoading} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
         {error && <Alert variant="destructive">{error}</Alert>}
-        <Button type="submit" className="w-full my-2">
+        <Button type="submit" className="w-full my-2" disabled={isLoading}>
           {isLoading ? <Loading size="sm" /> : "Sign in"}
         </Button>
       </form>

@@ -16,7 +16,11 @@ import {
   FormMessage,
   useZodForm,
 } from "@repo/ui/components/form";
+import { Alert } from "@repo/ui/components/alert";
 import { Input } from "@repo/ui/components/input";
+
+import { signUpWithCredentialsAction } from "@/actions/auth/create-account";
+import { Loading } from "@/components/loading";
 
 export function SignupForm() {
   const [error, setError] = useState<string>("");
@@ -29,18 +33,7 @@ export function SignupForm() {
     data: z.infer<typeof signUpWithCredentialsSchema>,
   ) {
     startTransition(async () => {
-      await fetch("/api/auth/create-user", {
-        body: JSON.stringify({
-          ...data,
-        }),
-        method: "POST",
-      })
-        .then(async () => {
-          await signIn("credentials", {
-            ...data,
-            redirectTo: "/",
-          });
-        })
+      signUpWithCredentialsAction(data)
         .catch((error) => setError(error.message));
     });
   }
@@ -55,7 +48,7 @@ export function SignupForm() {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder="John Doe" {...field} />
+                <Input placeholder="John Doe" disabled={isLoading} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -68,7 +61,12 @@ export function SignupForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="m@example.com" type="email" {...field} />
+                <Input 
+                  placeholder="m@example.com" 
+                  type="email" 
+                  disabled={isLoading}
+                  {...field} 
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -81,7 +79,12 @@ export function SignupForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input placeholder="••••••••••" type="password" {...field} />
+                <Input 
+                  placeholder="••••••••••" 
+                  type="password" 
+                  disabled={isLoading}
+                  {...field} 
+                />
               </FormControl>
               <FormDescription>
                 Password must be at least 8 characters long.
@@ -90,8 +93,9 @@ export function SignupForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full my-2">
-          Create account
+        {error && <Alert variant="destructive">{error}</Alert>}
+        <Button type="submit" className="w-full my-2" disabled={isLoading}>
+          {isLoading ? <Loading /> : "Create account"}
         </Button>
       </form>
     </Form>
