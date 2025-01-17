@@ -1,3 +1,5 @@
+import { NextResponse } from "next/server";
+
 import { auth } from "@repo/auth/next-auth-options";
 
 const AUTH_ROUTES: string[] = [
@@ -14,15 +16,16 @@ export default auth((req) => {
 
   if (isAuthRoute) {
     if (isAuthenticated) {
-      return Response.redirect(new URL("/", nextUrl));
+      return NextResponse.redirect(new URL("/", nextUrl));
     }
     return;
   }
   
   if (!isAuthenticated) {
-    return Response.redirect(new URL("/login", nextUrl));
+    return NextResponse.redirect(new URL("/login", nextUrl));
   }
 
+  return NextResponse.next();
 });
 
 export const config = {

@@ -8,11 +8,11 @@ export function SignOut() {
     <form
       action={async () => {
         "use server";
-        await signOut();
+        await signOut({ redirectTo: "/login" });
       }}
       className="w-full"
     >
-      <Button className="w-full gap-2">
+      <Button type="submit" className="w-full gap-2">
         Sign out
       </Button>
     </form>
