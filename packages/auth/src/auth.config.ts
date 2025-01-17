@@ -1,6 +1,5 @@
 import type { NextAuthConfig, User } from "next-auth";
 import type { JWT } from "next-auth/jwt";
-import { ZodError } from "zod";
 import Credentials from "@auth/core/providers/credentials";
 import Github from "next-auth/providers/github";
 
@@ -25,20 +24,15 @@ export default {
           const user = await db.query.users.findFirst({
             where: eq(users.email, email),
           });
-          if (!user || !user.hashedPassword) {
-            throw new Error("No user found");
-          }
-          if (!(await verifyPassword(user.hashedPassword, password))) {
-            throw new Error("Invalid email or password");
-          }
+          // Validation checks
+          if (!user || !user.hashedPassword) return null;
+          if (!(await verifyPassword(user.hashedPassword, password))) return null;
+          
           return {
             id: user.id, email: user.email, name: user.name,
           } satisfies User;
+
         } catch (error) {
-          if (error instanceof ZodError) {
-            // Return `null` to indicate that the credentials are invalid
-            return null;
-          }
           return null;
         }
       },

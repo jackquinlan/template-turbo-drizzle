@@ -1,13 +1,28 @@
 "use server";
 
+import { AuthError } from "next-auth";
 import { z } from "zod";
 import { signInWithCredentialsSchema } from "@repo/auth/validators";
-import { sign } from "crypto";
+import { signIn } from "@repo/auth/next-auth-options";
+
 
 export async function signInWithCredentialsAction(values: z.infer<typeof signInWithCredentialsSchema>) {
   const validatedFields = signInWithCredentialsSchema.safeParse(values);
   if (!validatedFields.success) {
-    return { error: "Invalid credentials" }
+    throw new Error("Invalid credentials");
   }
-  console.log(values);
+  const { email, password } = validatedFields.data;
+  try {
+    await signIn("credentials", {
+      email, password, redirectTo: "/",
+    });
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CredentialsSignin": throw new Error("User not found");
+        default: throw new Error("Unable to sign in");
+      }
+    }
+    throw error;
+  }
 }

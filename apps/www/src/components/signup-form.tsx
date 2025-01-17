@@ -32,9 +32,12 @@ export function SignupForm() {
   async function handleSubmit(
     data: z.infer<typeof signUpWithCredentialsSchema>,
   ) {
+    setError("");
     startTransition(async () => {
       signUpWithCredentialsAction(data)
-        .catch((error) => setError(error.message));
+        .catch((error) => {
+          setError(error.message);
+        });
     });
   }
 

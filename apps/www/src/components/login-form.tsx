@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { z } from "zod";
 
 import { signInWithCredentialsSchema } from "@repo/auth/validators";
-import { signIn } from "next-auth/react";
 import { Button } from "@repo/ui/components/button";
 import {
   Form,
@@ -34,17 +33,12 @@ export function LoginForm() {
   async function handleSubmit(
     data: z.infer<typeof signInWithCredentialsSchema>,
   ) {
+    setError("");
     startTransition(async () => {
-      const res = await signIn("credentials", {
-        ...data,
-        redirect: false,
-        callbackUrl: "/",
-      });
-      if (res?.error) {
-        setError("Invalid email or password");
-        return;
-      }
-      router.refresh();      
+      signInWithCredentialsAction(data)
+        .catch((error) => {
+          setError(error.message);
+        });
     });
   }
   return (
