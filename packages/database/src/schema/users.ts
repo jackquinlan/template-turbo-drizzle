@@ -52,11 +52,11 @@ export const sessions = sqliteTable("session", {
 export const verificationTokens = sqliteTable(
   "verification_token",
   {
-    identifier: text("identifier").notNull(),
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    email: text("user_email"),
     token: text("token").notNull(),
     expires: integer("expires", { mode: "timestamp_ms" }).notNull(),
-  },
-  (token) => ({
-    compoundKey: primaryKey({ columns: [token.identifier, token.token] }),
-  }),
+  }
 );

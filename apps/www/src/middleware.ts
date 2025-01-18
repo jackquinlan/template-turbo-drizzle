@@ -2,9 +2,7 @@ import { NextResponse } from "next/server";
 
 import { auth } from "@repo/auth/next-auth-options";
 
-const AUTH_ROUTES: string[] = [
-  "/forgot-password", "/login", "/signup",
-];
+const AUTH_ROUTES: string[] = ["/forgot-password", "/login", "/signup"];
 
 export default auth((req) => {
   const { nextUrl } = req;
@@ -20,7 +18,7 @@ export default auth((req) => {
     }
     return;
   }
-  
+
   if (!isAuthenticated) {
     return NextResponse.redirect(new URL("/login", nextUrl));
   }

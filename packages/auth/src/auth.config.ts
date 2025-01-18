@@ -19,19 +19,22 @@ export default {
       },
       authorize: async (credentials) => {
         try {
-          const { email, password } = await signInWithCredentialsSchema.parseAsync(credentials);
+          const { email, password } =
+            await signInWithCredentialsSchema.parseAsync(credentials);
           // Get user from database and verify the hashedPassword
           const user = await db.query.users.findFirst({
             where: eq(users.email, email),
           });
           // Validation checks
           if (!user || !user.hashedPassword) return null;
-          if (!(await verifyPassword(user.hashedPassword, password))) return null;
-          
-          return {
-            id: user.id, email: user.email, name: user.name,
-          } satisfies User;
+          if (!(await verifyPassword(user.hashedPassword, password)))
+            return null;
 
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+          } satisfies User;
         } catch (error) {
           return null;
         }
@@ -43,7 +46,9 @@ export default {
       return {
         ...session,
         user: {
-          id: token.id, email: token.email, name: token.name,
+          id: token.id,
+          email: token.email,
+          name: token.name,
         },
       };
     },
@@ -55,8 +60,20 @@ export default {
         return token;
       }
       return {
-        id: user.id, email: user.email, name: user.name,
+        id: user.id,
+        email: user.email,
+        name: user.name,
       } as JWT;
     },
-  }
+  },
+  events: {
+    async linkAccount({ user }) {
+      if (!user.id) return;
+      // For users the login/signup with OAuth provider, we want to automatically verify their email
+      await db
+        .update(users)
+        .set({ emailVerified: new Date() })
+        .where(eq(users.id, user.id));
+    },
+  },
 } satisfies NextAuthConfig;

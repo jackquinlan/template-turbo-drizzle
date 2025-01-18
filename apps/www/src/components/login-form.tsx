@@ -35,10 +35,9 @@ export function LoginForm() {
   ) {
     setError("");
     startTransition(async () => {
-      signInWithCredentialsAction(data)
-        .catch((error) => {
-          setError(error.message);
-        });
+      signInWithCredentialsAction(data).catch((error) => {
+        setError(error.message);
+      });
     });
   }
   return (
@@ -51,11 +50,11 @@ export function LoginForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input 
-                  placeholder="m@example.com" 
-                  type="email" 
-                  disabled={isLoading} 
-                  {...field} 
+                <Input
+                  placeholder="m@example.com"
+                  type="email"
+                  disabled={isLoading}
+                  {...field}
                 />
               </FormControl>
               <FormMessage />

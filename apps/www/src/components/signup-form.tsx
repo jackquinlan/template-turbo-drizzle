@@ -34,10 +34,9 @@ export function SignupForm() {
   ) {
     setError("");
     startTransition(async () => {
-      signUpWithCredentialsAction(data)
-        .catch((error) => {
-          setError(error.message);
-        });
+      signUpWithCredentialsAction(data).catch((error) => {
+        setError(error.message);
+      });
     });
   }
 
@@ -64,11 +63,11 @@ export function SignupForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input 
-                  placeholder="m@example.com" 
-                  type="email" 
+                <Input
+                  placeholder="m@example.com"
+                  type="email"
                   disabled={isLoading}
-                  {...field} 
+                  {...field}
                 />
               </FormControl>
               <FormMessage />
@@ -82,11 +81,11 @@ export function SignupForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input 
-                  placeholder="••••••••••" 
-                  type="password" 
+                <Input
+                  placeholder="••••••••••"
+                  type="password"
                   disabled={isLoading}
-                  {...field} 
+                  {...field}
                 />
               </FormControl>
               <FormDescription>

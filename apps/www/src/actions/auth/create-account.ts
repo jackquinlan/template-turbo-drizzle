@@ -8,9 +8,9 @@ import { db, eq, users } from "@repo/database";
 import { signUpWithCredentialsSchema } from "@repo/auth/validators";
 import { hashPassword } from "@repo/auth/crypto";
 
-
-export async function signUpWithCredentialsAction(values: z.infer<typeof signUpWithCredentialsSchema>) {
-
+export async function signUpWithCredentialsAction(
+  values: z.infer<typeof signUpWithCredentialsSchema>,
+) {
   const validatedFields = signUpWithCredentialsSchema.safeParse(values);
   if (!validatedFields.success) {
     throw new Error("Invalid credentials");
@@ -24,24 +24,26 @@ export async function signUpWithCredentialsAction(values: z.infer<typeof signUpW
     throw new Error("User already exists");
   }
 
-  await db
-    .insert(users)
-    .values({
-      email,
-      name,
-      hashedPassword: await hashPassword(password),
-    });
+  await db.insert(users).values({
+    email,
+    name,
+    hashedPassword: await hashPassword(password),
+  });
 
   // TODO: Add email verification logic eventually
   try {
     await signIn("credentials", {
-      email, password, redirectTo: "/",
+      email,
+      password,
+      redirectTo: "/",
     });
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
-        case "CredentialsSignin": throw new Error("User not found");
-        default: throw new Error("Unable to sign in")
+        case "CredentialsSignin":
+          throw new Error("User not found");
+        default:
+          throw new Error("Unable to sign in");
       }
     }
     throw error;
