@@ -15,6 +15,13 @@
       "when": 1736650525395,
       "tag": "0001_add_password",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1737246913765,
+      "tag": "0002_update_tokens",
+      "breakpoints": true
     }
   ]
 }

@@ -1,3 +1,19 @@
 {
-  "name": "@repo/emails"
+  "name": "@repo/emails",
+  "version": "0.0.1",
+  "dependencies": {
+    "@react-email/components": "^0.0.32",
+    "react": "^19.0.0",
+    "react-email": "^3.0.6",
+    "resend": "^4.1.1"
+  },
+  "exports": {
+    "./templates/*": "./src/templates/*.tsx",
+    "./send": "./src/send.ts"
+  },
+  "devDependencies": {
+    "@repo/ts": "workspace:*",
+    "@repo/ui": "workspace:*",
+    "@types/react": "18.3.0"
+  }
 }

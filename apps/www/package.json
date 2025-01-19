@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
+    "@repo/emails": "workspace:*",
     "@repo/ts": "workspace:*",
     "@repo/ui": "workspace:*",
     "@types/node": "^20",

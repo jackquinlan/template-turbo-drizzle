@@ -65,6 +65,18 @@ export default {
         name: user.name,
       } as JWT;
     },
+    signIn: async ({ user, account }) => {
+      if (account?.provider !== "credentials") return true;
+
+      if (!user.id) return false;
+      const existingUser = await db.query.users.findFirst({
+        where: eq(users.id, user.id),
+      });
+      // Prevent sign in for users without email verified
+      if (!existingUser?.emailVerified) return false;
+
+      return true;
+    }
   },
   events: {
     async linkAccount({ user }) {

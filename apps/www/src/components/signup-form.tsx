@@ -4,7 +4,6 @@ import React, { useState, useTransition } from "react";
 import { z } from "zod";
 
 import { signUpWithCredentialsSchema } from "@repo/auth/validators";
-import { signIn } from "next-auth/react";
 import { Button } from "@repo/ui/components/button";
 import {
   Form,
@@ -24,6 +23,7 @@ import { Loading } from "@/components/loading";
 
 export function SignupForm() {
   const [error, setError] = useState<string>("");
+  const [verificationMsg, setVerificationMsg] = useState<string>("");
   const [isLoading, startTransition] = useTransition();
   const form = useZodForm({
     schema: signUpWithCredentialsSchema,
@@ -32,11 +32,17 @@ export function SignupForm() {
   async function handleSubmit(
     data: z.infer<typeof signUpWithCredentialsSchema>,
   ) {
+    setVerificationMsg("");
     setError("");
     startTransition(async () => {
-      signUpWithCredentialsAction(data).catch((error) => {
-        setError(error.message);
-      });
+      signUpWithCredentialsAction(data)
+        .then((res) => {
+          if (res.message)
+            setVerificationMsg(res.message);
+        })
+        .catch((error) => {
+          setError(error.message);
+        });
     });
   }
 
@@ -96,6 +102,7 @@ export function SignupForm() {
           )}
         />
         {error && <Alert variant="destructive">{error}</Alert>}
+        {verificationMsg && <Alert variant="success">{verificationMsg}</Alert>}
         <Button type="submit" className="w-full my-2" disabled={isLoading}>
           {isLoading ? <Loading /> : "Create account"}
         </Button>

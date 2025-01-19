@@ -1,12 +1,14 @@
 "use server";
 
-import { AuthError } from "next-auth";
 import { z } from "zod";
 
-import { signIn } from "@repo/auth/next-auth-options";
 import { db, eq, users } from "@repo/database";
+import { getBaseUrl } from "@/lib/utils";
 import { signUpWithCredentialsSchema } from "@repo/auth/validators";
 import { hashPassword } from "@repo/auth/crypto";
+import { createVerificationToken } from "@repo/auth/lib/verification-token";
+import { sendEmail } from "@repo/emails/send";
+import { VerifyEmailTemplate } from "@repo/emails/templates/verify";
 
 export async function signUpWithCredentialsAction(
   values: z.infer<typeof signUpWithCredentialsSchema>,
@@ -30,22 +32,17 @@ export async function signUpWithCredentialsAction(
     hashedPassword: await hashPassword(password),
   });
 
-  // TODO: Add email verification logic eventually
   try {
-    await signIn("credentials", {
-      email,
-      password,
-      redirectTo: "/",
+    const token = await createVerificationToken(email);
+    const tokenLink = `${getBaseUrl()}/verify-email?token=${token}`;
+    await sendEmail({
+      react: VerifyEmailTemplate(tokenLink),
+      subject: "Verify your email",
+      to: [email],
+      from: "no-reply@jackquinlan.me",
     });
   } catch (error) {
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case "CredentialsSignin":
-          throw new Error("User not found");
-        default:
-          throw new Error("Unable to sign in");
-      }
-    }
-    throw error;
+    throw new Error("Error sending verification email. Please contact support");
   }
+  return { message: "Verification email sent" };
 }
