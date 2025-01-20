@@ -27,22 +27,27 @@ export async function verifyEmailWithToken(token: string) {
   });
 
   if (!verificationToken) {
-    return { error: "Invalid token" };
+    return { error: "Invalid token." };
   }
   if (new Date(verificationToken.expires) < new Date()) {
-    return { error: "Token expired" };
+    return { error: "Token expired. Sign in again to generate a new token." };
   }
   // Update user emailVerified field
   const user = await db.query.users.findFirst({
     where: eq(users.email, verificationToken.identifier),
   });
   if (!user || !user.email) {
-    return { error: "Invalid token" };
+    return { error: "Invalid token." };
   }
 
   await db.update(users)
     .set({
+      email: verificationToken.identifier, // Update user email (for when a user wants to update their email)
       emailVerified: new Date(),
     })
     .where(eq(users.email, user.email));
+  
+  // Clean up verification tokens related to that email address
+  await db.delete(verificationTokens)
+    .where(eq(verificationTokens.identifier, verificationToken.identifier));
 }

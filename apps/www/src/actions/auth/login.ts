@@ -28,13 +28,15 @@ export async function signInWithCredentialsAction(
   if (!existingUser.emailVerified) {
     const token = await createVerificationToken(email);
     const tokenLink = `${getBaseUrl()}/verify-email?token=${token[0].token}`;
+    console.log(tokenLink);
     // Resend verification email
     await sendEmail({
       react: VerifyEmailTemplate(tokenLink),
-      subject: "Welcome 👋! Verify your email",
+      subject: "Welcome! Please verify your email",
       to: [email],
       from: "no-reply@jackquinlan.me",
     });
+    return { message: "Verification email sent" };
   }
 
   try {

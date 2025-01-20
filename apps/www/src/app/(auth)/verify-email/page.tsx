@@ -15,19 +15,19 @@ import {
 import { Button } from "@repo/ui/components/button";
 import { verifyEmailWithToken } from "@repo/auth/lib/verification-token";
 
-export default async function VerifyEmailPage({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
-  // if token not in query params, redirect to home page
-  if (!searchParams || !searchParams?.token || !(typeof searchParams?.token === "string")) {
+export default async function VerifyEmailPage(
+  props: {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  }
+) {
+  const { token } = await props.searchParams;
+  if (!token || !(typeof token === "string")) {
     return redirect("/");
   }
-  const verified = await verifyEmailWithToken(await searchParams.token);
+  const verified = await verifyEmailWithToken(token);
   return (
     <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6">
-      <div className="flex w-full max-w-sm flex-col gap-6">
+      <div className="flex w-full max-w-md flex-col gap-6">
         <Link
           href="/"
           className="flex items-center gap-2 self-center font-medium"
@@ -48,11 +48,14 @@ export default async function VerifyEmailPage({
               {verified?.error ? (
                 <div className="flex flex-col gap-3">
                   <Alert variant="destructive">{verified.error}</Alert>
+                  <Button asChild className="w-full">
+                    <Link href="/login">Sign in</Link>
+                  </Button>
                 </div>
               ) : (
                 <div className="flex flex-col gap-3 space-y-3">
                   <Alert variant="success">
-                    Your email has been verified! 
+                    Your email has been verified! You can now sign in.
                   </Alert>
                   <Button asChild className="w-full">
                     <Link href="/login">Sign in</Link>

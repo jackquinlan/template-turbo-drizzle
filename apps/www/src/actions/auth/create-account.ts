@@ -35,13 +35,12 @@ export async function signUpWithCredentialsAction(
   try {
     const token = await createVerificationToken(email);
     const tokenLink = `${getBaseUrl()}/verify-email?token=${token[0].token}`;
-    console.log(tokenLink);
-    // await sendEmail({
-    //   react: VerifyEmailTemplate(tokenLink),
-    //   subject: "Verify your email",
-    //   to: [email],
-    //   from: "no-reply@jackquinlan.me",
-    // });
+    await sendEmail({
+      react: VerifyEmailTemplate(tokenLink),
+      subject: "Welcome! Please verify your email",
+      to: [email],
+      from: "no-reply@jackquinlan.me",
+    });
   } catch (error) {
     throw new Error("Error sending verification email. Please contact support");
   }

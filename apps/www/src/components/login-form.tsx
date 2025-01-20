@@ -2,7 +2,6 @@
 
 import React, { useTransition, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { z } from "zod";
 
 import { signInWithCredentialsSchema } from "@repo/auth/validators";
@@ -23,8 +22,8 @@ import { signInWithCredentialsAction } from "@/actions/auth/login";
 import { Loading } from "@/components/loading";
 
 export function LoginForm() {
-  const router = useRouter();
   const [error, setError] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
   const [isLoading, startTransition] = useTransition();
   const form = useZodForm({
     schema: signInWithCredentialsSchema,
@@ -33,11 +32,17 @@ export function LoginForm() {
   async function handleSubmit(
     data: z.infer<typeof signInWithCredentialsSchema>,
   ) {
+    setMessage("");
     setError("");
     startTransition(async () => {
-      signInWithCredentialsAction(data).catch((error) => {
-        setError(error.message);
-      });
+      signInWithCredentialsAction(data)
+        .then((res) => {
+          if (res?.message) 
+            setMessage(res.message);
+        })
+        .catch((error) => {
+          setError(error.message);
+        });
     });
   }
   return (
@@ -83,6 +88,7 @@ export function LoginForm() {
           )}
         />
         {error && <Alert variant="destructive">{error}</Alert>}
+        {message && <Alert variant="success">{message}</Alert>}
         <Button type="submit" className="w-full my-2" disabled={isLoading}>
           {isLoading ? <Loading size="sm" /> : "Sign in"}
         </Button>
