@@ -15,11 +15,12 @@ export default async function Home() {
         {session ? (
           <SignOut />
         ) : (
-          <Button asChild>
+          <Button size="sm" asChild>
             <Link href="/login">Sign in</Link>
           </Button>
         )}
       </div>
+      Home
       {session && <pre>{JSON.stringify(session.user, null, 2)}</pre>}
     </div>
   );
