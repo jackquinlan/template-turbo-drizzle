@@ -18,6 +18,7 @@ export async function createVerificationToken(email: string) {
     token,
     expires: new Date(Date.now() + 3600 * 1000) // 1 hour
   }).returning();
+
   return newToken;
 }
 

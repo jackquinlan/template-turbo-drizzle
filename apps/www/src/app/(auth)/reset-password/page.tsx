@@ -4,8 +4,9 @@ import { redirect } from "next/navigation";
 
 import { GalleryVerticalEnd } from "lucide-react";
 
+import { ResetPasswordForm } from "@/components/reset-password-form";
 import { Alert } from "@repo/ui/components/alert";
-import { 
+import {
   Card,
   CardContent,
   CardDescription,
@@ -13,9 +14,9 @@ import {
   CardTitle,
 } from "@repo/ui/components/card";
 import { Button } from "@repo/ui/components/button";
-import { verifyEmailWithToken } from "@repo/auth/lib/verification-token";
+import { validateResetToken } from "@repo/auth/lib/reset-token";
 
-export default async function VerifyEmailPage(
+export default async function ResetPasswordPage(
   props: {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
   }
@@ -24,9 +25,10 @@ export default async function VerifyEmailPage(
   if (!token || !(typeof token === "string")) {
     return redirect("/");
   }
-  const verified = await verifyEmailWithToken(token);
+  const validToken = await validateResetToken(token);
+
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6">
+    <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
       <div className="flex w-full max-w-md flex-col gap-6">
         <Link
           href="/"
@@ -40,28 +42,25 @@ export default async function VerifyEmailPage(
         <div className="flex flex-col gap-3">
           <Card>
             <CardHeader className="text-center">
-              <CardTitle className="text-xl">Verify your email</CardTitle>
-              <CardDescription className="pb-2">Please verify your email address before signing in</CardDescription>
+              <CardTitle className="text-xl">Reset your password</CardTitle>
+              <CardDescription className="pb-2">
+                Please enter the new password you would like to use
+              </CardDescription>
               <hr />
             </CardHeader>
             <CardContent>
-              {verified?.error ? (
-                <div className="flex flex-col gap-3 space-y-2">
-                  <Alert variant="destructive">{verified.error}</Alert>
-                  <Button asChild className="w-full">
-                    <Link href="/login">Sign in</Link>
-                  </Button>
-                </div>
-              ) : (
-                <div className="flex flex-col gap-3 space-y-2">
-                  <Alert variant="success">
-                    Your email has been verified! You can now sign in.
-                  </Alert>
-                  <Button asChild className="w-full">
-                    <Link href="/login">Sign in</Link>
-                  </Button>
-                </div>
-              )}
+              <div className="grid gap-4">
+                {validToken.error ? (
+                  <div className="flex flex-col gap-3 space-y-2">
+                    <Alert variant="destructive">{validToken.error}</Alert>
+                    <Button asChild className="w-full">
+                      <Link href="/">Back</Link>
+                    </Button>
+                  </div>
+                ) : (
+                  <ResetPasswordForm token={token} />
+                )}
+              </div>
             </CardContent>
           </Card>
         </div>

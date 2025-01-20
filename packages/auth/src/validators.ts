@@ -14,3 +14,12 @@ export const signUpWithCredentialsSchema = z.object({
 export const forgotPasswordSchema = z.object({
   email: z.string().email(),
 });
+
+export const updatePasswordSchema = z.object({
+  password: z.string().min(8),
+  passwordConfirmation: z.string().min(8),
+  token: z.string().min(1),
+}).refine((data) => 
+  data.password === data.passwordConfirmation, { 
+    message: "Passwords must match", path: ["passwordConfirmation"]
+  });

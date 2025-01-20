@@ -52,3 +52,12 @@ export const verificationTokens = sqliteTable("verification_token", {
     .$defaultFn(() => crypto.randomUUID()),
   expires: integer("expires", { mode: "timestamp_ms" }).notNull(),
 });
+
+export const resetPasswordTokens = sqliteTable("reset_password_token", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()), 
+  email: text("email").notNull(),
+  token: text("token").notNull(),
+  expires: integer("expires", { mode: "timestamp_ms" }).notNull(),
+});

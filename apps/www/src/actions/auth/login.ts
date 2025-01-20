@@ -1,8 +1,9 @@
 "use server";
 
 import { AuthError } from "next-auth";
-import { db, eq, users } from "@repo/database";
 import { z } from "zod";
+
+import { db, eq, users } from "@repo/database";
 import { getBaseUrl } from "@/lib/utils";
 import { signInWithCredentialsSchema } from "@repo/auth/validators";
 import { signIn } from "@repo/auth/next-auth-options";
@@ -28,7 +29,7 @@ export async function signInWithCredentialsAction(
   if (!existingUser.emailVerified) {
     const token = await createVerificationToken(email);
     const tokenLink = `${getBaseUrl()}/verify-email?token=${token[0].token}`;
-    console.log(tokenLink);
+
     // Resend verification email
     await sendEmail({
       react: VerifyEmailTemplate(tokenLink),

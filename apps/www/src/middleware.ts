@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 import { auth } from "@repo/auth/next-auth-options";
 
-const PUBLIC_ROUTES: string[] = ["/verify-email"]
+const PUBLIC_ROUTES: string[] = ["/verify-email", "/reset-password"];
 const AUTH_ROUTES: string[] = ["/forgot-password", "/login", "/signup"];
 
 export default auth((req) => {
