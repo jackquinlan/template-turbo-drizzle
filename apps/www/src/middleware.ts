@@ -2,11 +2,13 @@ import { NextResponse } from "next/server";
 
 import { auth } from "@repo/auth/next-auth-options";
 
+const PUBLIC_ROUTES: string[] = ["/verify-email"]
 const AUTH_ROUTES: string[] = ["/forgot-password", "/login", "/signup"];
 
 export default auth((req) => {
   const { nextUrl } = req;
 
+  const isPublicRoute = PUBLIC_ROUTES.includes(nextUrl.pathname);
   const isAuthenticated = !!req.auth;
   const isAuthRoute = AUTH_ROUTES.includes(nextUrl.pathname);
 
@@ -19,7 +21,7 @@ export default auth((req) => {
     return;
   }
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated && !isPublicRoute) {
     return NextResponse.redirect(new URL("/login", nextUrl));
   }
 

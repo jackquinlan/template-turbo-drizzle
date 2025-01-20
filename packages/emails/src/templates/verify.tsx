@@ -13,12 +13,14 @@ export function VerifyEmailTemplate(verificationLink: string) {
           Before you get started, please verify your email address by clicking the button
           below 👇.
           <br />
+          <br />
           <a href={verificationLink}>Verify your email</a>
           <br />
           <br />
-          This token is only valid for the next 1 hours.
+          This token is only valid for the next 1 hour.
           <br />
           To keep your account secure, please don't forward this email to anyone.
+          <br />
           <br />
           Thanks,
           <br />

@@ -16,13 +16,13 @@ export function ForgotPasswordCard() {
       <Card>
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Forgot password?</CardTitle>
-          <CardDescription>
+          <CardDescription className="pb-2">
             Enter your email to reset your password
           </CardDescription>
+          <hr />
         </CardHeader>
         <CardContent>
           <div className="grid gap-4">
-            <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border" />
             <ForgotPasswordForm />
           </div>
         </CardContent>
