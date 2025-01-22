@@ -16,7 +16,7 @@ export default async function PlatformLayout({
 }>) {
   const session = await auth();
   if (!session) {
-    return redirect("/login");
+    return redirect("/login"); // Should be caught in middleware, but just in case
   }
 
   return (

@@ -16,7 +16,7 @@ import { CircleUserIcon } from "lucide-react";
 export function UserButton({ user }: { user: User }) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="outline-none flex items-center p-2">
+      <DropdownMenuTrigger className="outline-none flex items-center">
         <div className="outline-none flex items-center p-2 gap-2">
           <Avatar className="w-8 h-8">
             <AvatarFallback className="border-border border bg-sidebar-primary text-sidebar-primary-foreground" />
