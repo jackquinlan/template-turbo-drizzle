@@ -76,7 +76,7 @@ export default {
       if (!existingUser?.emailVerified) return false;
 
       return true;
-    }
+    },
   },
   events: {
     async linkAccount({ user }) {

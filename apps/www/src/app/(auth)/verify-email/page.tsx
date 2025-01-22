@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { GalleryVerticalEnd } from "lucide-react";
 
 import { Alert } from "@repo/ui/components/alert";
-import { 
+import {
   Card,
   CardContent,
   CardDescription,
@@ -15,11 +15,9 @@ import {
 import { Button } from "@repo/ui/components/button";
 import { verifyEmailWithToken } from "@repo/auth/lib/verification-token";
 
-export default async function VerifyEmailPage(
-  props: {
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-  }
-) {
+export default async function VerifyEmailPage(props: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   const { token } = await props.searchParams;
   if (!token || !(typeof token === "string")) {
     return redirect("/");
@@ -41,7 +39,9 @@ export default async function VerifyEmailPage(
           <Card>
             <CardHeader className="text-center">
               <CardTitle className="text-xl">Verify your email</CardTitle>
-              <CardDescription className="pb-2">Please verify your email address before signing in</CardDescription>
+              <CardDescription className="pb-2">
+                Please verify your email address before signing in
+              </CardDescription>
               <hr />
             </CardHeader>
             <CardContent>

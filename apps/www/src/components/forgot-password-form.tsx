@@ -33,8 +33,7 @@ export function ForgotPasswordForm() {
     startTransition(async () => {
       sendResetTokenEmailAction(data)
         .then((res) => {
-          if (res?.message) 
-            setMessage(res.message);
+          if (res?.message) setMessage(res.message);
         })
         .catch((error) => {
           setError(error.message);
@@ -43,7 +42,10 @@ export function ForgotPasswordForm() {
   }
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="grid gap-4 space-y-2">
+      <form
+        onSubmit={form.handleSubmit(handleSubmit)}
+        className="grid gap-4 space-y-2"
+      >
         <FormField
           control={form.control}
           name="email"
@@ -51,7 +53,12 @@ export function ForgotPasswordForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="m@example.com" type="email" disabled={isLoading} {...field} />
+                <Input
+                  placeholder="m@example.com"
+                  type="email"
+                  disabled={isLoading}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

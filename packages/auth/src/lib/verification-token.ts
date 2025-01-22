@@ -9,15 +9,19 @@ export async function createVerificationToken(email: string) {
     where: eq(verificationTokens.identifier, email),
   });
   if (existingTokenExists) {
-    await db.delete(verificationTokens)
+    await db
+      .delete(verificationTokens)
       .where(eq(verificationTokens.identifier, email));
   }
 
-  const newToken = await db.insert(verificationTokens).values({
-    identifier: email,
-    token,
-    expires: new Date(Date.now() + 3600 * 1000) // 1 hour
-  }).returning();
+  const newToken = await db
+    .insert(verificationTokens)
+    .values({
+      identifier: email,
+      token,
+      expires: new Date(Date.now() + 3600 * 1000), // 1 hour
+    })
+    .returning();
 
   return newToken;
 }
@@ -41,14 +45,16 @@ export async function verifyEmailWithToken(token: string) {
     return { error: "Invalid token." };
   }
 
-  await db.update(users)
+  await db
+    .update(users)
     .set({
       email: verificationToken.identifier, // Update user email (for when a user wants to update their email)
       emailVerified: new Date(),
     })
     .where(eq(users.email, user.email));
-  
+
   // Clean up verification tokens related to that email address
-  await db.delete(verificationTokens)
+  await db
+    .delete(verificationTokens)
     .where(eq(verificationTokens.identifier, verificationToken.identifier));
 }

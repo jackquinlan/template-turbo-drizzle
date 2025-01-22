@@ -10,8 +10,8 @@ export function VerifyEmailTemplate(verificationLink: string) {
           Hey 👋,
           <br />
           <br />
-          Before you get started, please verify your email address by clicking the button
-          below 👇.
+          Before you get started, please verify your email address by clicking
+          the button below 👇.
           <br />
           <br />
           <a href={verificationLink}>Verify your email</a>
@@ -19,7 +19,8 @@ export function VerifyEmailTemplate(verificationLink: string) {
           <br />
           This token is only valid for the next 1 hour.
           <br />
-          To keep your account secure, please don't forward this email to anyone.
+          To keep your account secure, please don't forward this email to
+          anyone.
           <br />
           <br />
           Thanks,

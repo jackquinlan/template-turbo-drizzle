@@ -37,8 +37,7 @@ export function LoginForm() {
     startTransition(async () => {
       signInWithCredentialsAction(data)
         .then((res) => {
-          if (res?.message) 
-            setMessage(res.message);
+          if (res?.message) setMessage(res.message);
         })
         .catch((error) => {
           setError(error.message);

@@ -20,7 +20,7 @@ import { Input } from "@repo/ui/components/input";
 import { Loading } from "@/components/loading";
 import { resetPasswordAction } from "@/actions/auth/reset-password";
 
-export function ResetPasswordForm({ token }: { token: string; }) {
+export function ResetPasswordForm({ token }: { token: string }) {
   const [isLoading, startTransition] = useTransition();
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
@@ -34,8 +34,7 @@ export function ResetPasswordForm({ token }: { token: string; }) {
     startTransition(async () => {
       resetPasswordAction(data)
         .then((res) => {
-          if (res?.success) 
-            setSuccess(res.success);
+          if (res?.success) setSuccess(res.success);
         })
         .catch((error) => {
           setError(error.message);
@@ -46,17 +45,20 @@ export function ResetPasswordForm({ token }: { token: string; }) {
   if (success.length > 0) {
     return (
       <div className="flex flex-col gap-3 space-y-2">
-         <Alert variant="success">{success}</Alert>
-         <Button asChild className="w-full">
-           <Link href="/">Back</Link>
-          </Button>
+        <Alert variant="success">{success}</Alert>
+        <Button asChild className="w-full">
+          <Link href="/">Back</Link>
+        </Button>
       </div>
     );
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="grid gap-4 space-y-2">
+      <form
+        onSubmit={form.handleSubmit(handleSubmit)}
+        className="grid gap-4 space-y-2"
+      >
         <FormField
           control={form.control}
           name="password"
@@ -64,7 +66,12 @@ export function ResetPasswordForm({ token }: { token: string; }) {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input placeholder="••••••••••" type="password" disabled={isLoading} {...field} />
+                <Input
+                  placeholder="••••••••••"
+                  type="password"
+                  disabled={isLoading}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -77,7 +84,12 @@ export function ResetPasswordForm({ token }: { token: string; }) {
             <FormItem>
               <FormLabel>Confirm new password</FormLabel>
               <FormControl>
-                <Input placeholder="••••••••••" type="password" disabled={isLoading} {...field} />
+                <Input
+                  placeholder="••••••••••"
+                  type="password"
+                  disabled={isLoading}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

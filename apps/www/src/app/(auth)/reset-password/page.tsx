@@ -16,11 +16,9 @@ import {
 import { Button } from "@repo/ui/components/button";
 import { validateResetToken } from "@repo/auth/lib/reset-token";
 
-export default async function ResetPasswordPage(
-  props: {
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-  }
-) {
+export default async function ResetPasswordPage(props: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   const { token } = await props.searchParams;
   if (!token || !(typeof token === "string")) {
     return redirect("/");

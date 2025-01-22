@@ -9,14 +9,18 @@ export async function createResetToken(email: string) {
     where: eq(resetPasswordTokens.email, email),
   });
   if (existingTokenExists) {
-    await db.delete(resetPasswordTokens)
+    await db
+      .delete(resetPasswordTokens)
       .where(eq(resetPasswordTokens.email, email));
   }
-  const newToken = await db.insert(resetPasswordTokens).values({
-    email: email,
-    token,
-    expires: new Date(Date.now() + 3600 * 1000) // 1 hour
-  }).returning();
+  const newToken = await db
+    .insert(resetPasswordTokens)
+    .values({
+      email: email,
+      token,
+      expires: new Date(Date.now() + 3600 * 1000), // 1 hour
+    })
+    .returning();
 
   return newToken;
 }

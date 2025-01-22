@@ -12,13 +12,7 @@ export default async function Home() {
   return (
     <div className="flex flex-col items-center gap-6 p-6 md:p-10">
       <div className="flex items-center gap-2">
-        {session ? (
-          <SignOut />
-        ) : (
-          <Button size="sm" asChild>
-            <Link href="/login">Sign in</Link>
-          </Button>
-        )}
+        <SignOut />
       </div>
       Home
       {session && <pre>{JSON.stringify(session.user, null, 2)}</pre>}
