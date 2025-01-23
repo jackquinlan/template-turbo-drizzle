@@ -24,9 +24,11 @@ const items = [
 export function AppSidebar({ user }: { user: User }) {
   const path = usePathname();
   return (
-    <Sidebar variant="inset">
+    <Sidebar>
       <SidebarHeader>
-        <UserButton user={user} />
+        <SidebarMenuButton asChild>
+          <UserButton user={user} />
+        </SidebarMenuButton>
       </SidebarHeader>
       <SidebarContent className="space-y-0">
         {items.map((item) => (

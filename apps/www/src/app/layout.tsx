@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Geist } from "next/font/google";
 import type { Metadata } from "next";
-import { SessionProvider } from "next-auth/react";
 
+import { Providers } from "@/_providers";
 import "@repo/ui/globals.css";
 
 export const geist = Geist({ subsets: ["latin"] });
@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body className={`${geist.className} antialiased`}>
-        <SessionProvider>{children}</SessionProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
