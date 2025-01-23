@@ -20,7 +20,7 @@ export function LoginCard() {
           <CardTitle className="text-xl">Welcome back</CardTitle>
           <CardDescription>Login with your Github account</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-0">
           <div className="grid gap-4">
             <OAuthButtonGroup />
             <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">

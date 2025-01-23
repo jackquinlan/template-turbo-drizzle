@@ -30,7 +30,7 @@ export default async function VerifyEmailPage(props: {
           href="/"
           className="flex items-center gap-2 self-center font-medium"
         >
-          <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
+          <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-primary text-primary-foreground">
             <GalleryVerticalEnd className="size-4" />
           </div>
           Acme Inc.
@@ -44,7 +44,7 @@ export default async function VerifyEmailPage(props: {
               </CardDescription>
               <hr />
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-0">
               {verified?.error ? (
                 <div className="flex flex-col gap-3 space-y-2">
                   <Alert variant="destructive">{verified.error}</Alert>

@@ -21,7 +21,7 @@ export function ForgotPasswordCard() {
           </CardDescription>
           <hr />
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-0">
           <div className="grid gap-4">
             <ForgotPasswordForm />
           </div>

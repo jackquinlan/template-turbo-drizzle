@@ -25,3 +25,7 @@ export const updatePasswordSchema = z
     message: "Passwords must match",
     path: ["passwordConfirmation"],
   });
+
+export const updateEmailSchema = z.object({
+  email: z.string().email(),
+});

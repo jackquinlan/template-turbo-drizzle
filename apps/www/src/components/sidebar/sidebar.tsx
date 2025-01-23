@@ -18,19 +18,18 @@ import { UserButton } from "@/components/sidebar/user-button";
 
 const items = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/settings", label: "Settings", icon: Settings },
 ];
 
 export function AppSidebar({ user }: { user: User }) {
   const path = usePathname();
   return (
     <Sidebar>
-      <SidebarHeader>
+      <SidebarHeader className="mt-2 dark:bg-background">
         <SidebarMenuButton asChild>
           <UserButton user={user} />
         </SidebarMenuButton>
       </SidebarHeader>
-      <SidebarContent className="space-y-0">
+      <SidebarContent className="space-y-0 dark:bg-background">
         {items.map((item) => (
           <SidebarMenuItem key={item.label} className="px-2">
             <SidebarMenuButton asChild isActive={item.href === path}>

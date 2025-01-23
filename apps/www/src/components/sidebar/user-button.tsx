@@ -2,7 +2,8 @@ import * as React from "react";
 import Link from "next/link";
 
 import type { User } from "next-auth";
-import { CircleUserIcon, SunIcon, MoonIcon, Sun } from "lucide-react";
+import { signOut } from "next-auth/react";
+import { CircleUserIcon, SunIcon, MoonIcon, Sun, LogOutIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 
 import { Avatar, AvatarFallback } from "@repo/ui/components/avatar";
@@ -12,6 +13,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuSeparator,
 } from "@repo/ui/components/dropdown-menu";
 
 export function UserButton({ user }: { user: User }) {
@@ -19,7 +21,7 @@ export function UserButton({ user }: { user: User }) {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="outline-none flex items-center rounded-md hover:bg-muted">
+      <DropdownMenuTrigger className="outline-none flex items-center rounded-lg hover:bg-muted">
         <div className="outline-none flex items-center p-2 gap-2">
           <Avatar className="w-8 h-8">
             <AvatarFallback className="border-border border bg-sidebar-primary text-sidebar-primary-foreground" />
@@ -52,6 +54,11 @@ export function UserButton({ user }: { user: User }) {
             )}
           </DropdownMenuItem>
         </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => signOut({ redirectTo: "/login" })}>
+          <LogOutIcon className="size-4" />
+          Sign out
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
