@@ -29,6 +29,13 @@
       "when": 1737399086293,
       "tag": "0003_reset_pwd_token",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1737686297686,
+      "tag": "0004_update_verification_token",
+      "breakpoints": true
     }
   ]
 }

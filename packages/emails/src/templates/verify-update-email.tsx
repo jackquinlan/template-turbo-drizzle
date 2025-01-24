@@ -1,15 +1,15 @@
 import { Html, Head, Preview, Body } from "@react-email/components";
 
-export function VerifyEmailTemplate(verificationLink: string) {
+export function VerifyUpdateEmailTemplate(verificationLink: string) {
   return (
     <Html>
       <Head>
-        <Preview>Before logging in, please verify your email</Preview>
+        <Preview>Before continuing, please verify your email</Preview>
         <Body>
           Hey 👋,
           <br />
           <br />
-          Before you get started, please verify your email address by clicking
+          We have recieved a request to update your email address. To verify your new email address, click
           the button below 👇.
           <br />
           <br />

@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 import { db, eq, verificationTokens, users } from "@repo/database";
 
-export async function createVerificationToken(email: string) {
+export async function createVerificationToken(email: string, userId: string) {
   const token = uuid();
 
   // Check if verification token exists for given email
@@ -11,12 +11,13 @@ export async function createVerificationToken(email: string) {
   if (existingTokenExists) {
     await db
       .delete(verificationTokens)
-      .where(eq(verificationTokens.identifier, email));
+      .where(eq(verificationTokens.userId, userId));
   }
 
   const newToken = await db
     .insert(verificationTokens)
     .values({
+      userId: userId,
       identifier: email,
       token,
       expires: new Date(Date.now() + 3600 * 1000), // 1 hour
@@ -39,7 +40,7 @@ export async function verifyEmailWithToken(token: string) {
   }
   // Update user emailVerified field
   const user = await db.query.users.findFirst({
-    where: eq(users.email, verificationToken.identifier),
+    where: eq(users.id, verificationToken.userId),
   });
   if (!user || !user.email) {
     return { error: "Invalid token." };

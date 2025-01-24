@@ -26,14 +26,14 @@ export async function signUpWithCredentialsAction(
     throw new Error("User already exists");
   }
 
-  await db.insert(users).values({
+  const newUser = await db.insert(users).values({
     email,
     name,
     hashedPassword: await hashPassword(password),
-  });
+  }).returning();
 
   try {
-    const token = await createVerificationToken(email);
+    const token = await createVerificationToken(email, newUser[0].id);
     const tokenLink = `${getBaseUrl()}/verify-email?token=${token[0].token}`;
     await sendEmail({
       react: VerifyEmailTemplate(tokenLink),
@@ -42,7 +42,7 @@ export async function signUpWithCredentialsAction(
       from: "no-reply@jackquinlan.me",
     });
   } catch (error) {
-    throw new Error("Error sending verification email. Please contact support");
+    throw new Error("Error sending verification email.");
   }
   return { message: "Verification email sent" };
 }

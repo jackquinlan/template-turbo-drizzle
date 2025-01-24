@@ -4,7 +4,6 @@ export function ResetPasswordTemplate(resetLink: string) {
   return (
     <Html>
       <Head>
-        <title>Reset password</title>
         <Preview>
           We have recieved a request to reset your password for your account
         </Preview>

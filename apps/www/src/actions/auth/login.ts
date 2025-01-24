@@ -27,7 +27,7 @@ export async function signInWithCredentialsAction(
   }
 
   if (!existingUser.emailVerified) {
-    const token = await createVerificationToken(email);
+    const token = await createVerificationToken(email, existingUser.id);
     const tokenLink = `${getBaseUrl()}/verify-email?token=${token[0].token}`;
 
     // Resend verification email
@@ -50,9 +50,9 @@ export async function signInWithCredentialsAction(
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
-          throw new Error("User not found");
-        default:
           throw new Error("Incorrect email or password");
+        default:
+          throw new Error("User not found");
       }
     }
     throw error;

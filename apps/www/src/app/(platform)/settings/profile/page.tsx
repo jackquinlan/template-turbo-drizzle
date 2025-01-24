@@ -18,7 +18,9 @@ export default async function ProfileSettingsPage() {
 
   return (
     <div className="flex flex-col space-y-4">
-      <EmailForm currentEmail={session.user.email} provider={hasProvider?.provider === "github" ? "GitHub" : undefined} />
+      <EmailForm 
+        currentUser={session.user} 
+        provider={hasProvider?.provider === "github" ? "GitHub" : undefined} />
     </div>
   );
 }

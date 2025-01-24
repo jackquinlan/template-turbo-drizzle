@@ -14,11 +14,13 @@ import {
 } from "@repo/ui/components/card";
 import { Button } from "@repo/ui/components/button";
 import { verifyEmailWithToken } from "@repo/auth/lib/verification-token";
+import { auth } from "@repo/auth/next-auth-options";
 
 export default async function VerifyEmailPage(props: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { token } = await props.searchParams;
+  const session = await auth();
   if (!token || !(typeof token === "string")) {
     return redirect("/");
   }
@@ -55,10 +57,10 @@ export default async function VerifyEmailPage(props: {
               ) : (
                 <div className="flex flex-col gap-3 space-y-2">
                   <Alert variant="success">
-                    Your email has been verified! You can now sign in.
+                    Your email has been verified!
                   </Alert>
                   <Button asChild className="w-full">
-                    <Link href="/login">Sign in</Link>
+                    <Link href="/login">{session?.user ? "Back" : "Sign in"}</Link>
                   </Button>
                 </div>
               )}

@@ -22,9 +22,9 @@ import { signInWithCredentialsAction } from "@/actions/auth/login";
 import { Loading } from "@/components/loading";
 
 export function LoginForm() {
+  const [isLoading, startTransition] = useTransition();
   const [error, setError] = useState<string>("");
   const [message, setMessage] = useState<string>("");
-  const [isLoading, startTransition] = useTransition();
   const form = useZodForm({
     schema: signInWithCredentialsSchema,
     defaultValues: { email: "", password: "" },

@@ -27,5 +27,6 @@ export const updatePasswordSchema = z
   });
 
 export const updateEmailSchema = z.object({
+  userId: z.string().uuid(),
   email: z.string().email(),
 });
