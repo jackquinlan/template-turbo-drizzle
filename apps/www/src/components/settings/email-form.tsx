@@ -5,11 +5,11 @@ import type { User } from "next-auth";
 import { z } from "zod";
 
 import { Button } from "@repo/ui/components/button";
-import { 
-  Card, 
-  CardHeader, 
-  CardTitle, 
-  CardContent, 
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
   CardFooter,
 } from "@repo/ui/components/card";
 import {
@@ -37,16 +37,18 @@ export function EmailForm({
   const [isLoading, startTransition] = useTransition();
   const [error, setError] = useState<string>("");
   const [message, setMessage] = useState<string>("");
-  const hasProvider = provider !== undefined;
   const form = useZodForm({
     schema: updateEmailSchema,
-    defaultValues: { email: currentUser.email ?? "", userId: currentUser.id },
+    defaultValues: {
+      newEmail: currentUser.email ?? "",
+      userId: currentUser.id,
+    },
   });
   async function handleSubmit(data: z.infer<typeof updateEmailSchema>) {
     setMessage("");
     setError("");
     startTransition(async () => {
-      if (data.email === currentUser.email) {
+      if (data.newEmail === currentUser.email) {
         return; // Only update email if different
       }
       sendUpdateEmailVerificationAction(data)
@@ -68,16 +70,16 @@ export function EmailForm({
           <CardContent className="p-4 space-y-2">
             <FormField
               control={form.control}
-              name="email"
+              name="newEmail"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
                       className="w-1/2"
-                      disabled={hasProvider}
-                      placeholder={currentUser.email ?? ""} 
-                      type="email" 
+                      disabled={!!provider || isLoading}
+                      placeholder={currentUser.email ?? ""}
+                      type="email"
                       {...field}
                     />
                   </FormControl>
@@ -94,7 +96,9 @@ export function EmailForm({
                 {isLoading ? <Loading size="sm" /> : "Update email"}
               </Button>
             ) : (
-              <span>Your email is associated with your {provider} account.</span>
+              <span>
+                Your email is associated with your {provider} account.
+              </span>
             )}
           </CardFooter>
         </Card>

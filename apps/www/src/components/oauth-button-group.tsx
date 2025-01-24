@@ -1,25 +1,22 @@
+"use client";
+
 import React from "react";
+import { useSearchParams } from "next/navigation";
 
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
+import { signIn } from "next-auth/react";
 
-import { signIn } from "@repo/auth/next-auth-options";
 import { Button } from "@repo/ui/components/button";
 
 export function OAuthButtonGroup() {
+  const params = useSearchParams();
+  const callbackUrl = params.get("callbackUrl");
   return (
     <div className="flex flex-col gap-4">
-      <form
-        action={async () => {
-          "use server";
-          await signIn("github", { redirectTo: "/" });
-        }}
-        className="w-full"
-      >
-        <Button variant="outline" className="w-full gap-2">
-          <GitHubLogoIcon className="w-4 h-4" />
-          Continue with Github
-        </Button>
-      </form>
+      <Button variant="outline" className="w-full gap-2" onClick={async () => await signIn("github", { redirectTo: callbackUrl || "/" })}>
+        <GitHubLogoIcon className="w-4 h-4" />
+        Continue with Github
+      </Button>
     </div>
   );
 }

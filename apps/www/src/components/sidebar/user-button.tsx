@@ -3,7 +3,13 @@ import Link from "next/link";
 
 import type { User } from "next-auth";
 import { signOut } from "next-auth/react";
-import { CircleUserIcon, SunIcon, MoonIcon, Sun, LogOutIcon } from "lucide-react";
+import {
+  CircleUserIcon,
+  SunIcon,
+  MoonIcon,
+  Sun,
+  LogOutIcon,
+} from "lucide-react";
 import { useTheme } from "next-themes";
 
 import { Avatar, AvatarFallback } from "@repo/ui/components/avatar";
@@ -32,7 +38,7 @@ export function UserButton({ user }: { user: User }) {
           </div>
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-64" align="start"> 
+      <DropdownMenuContent className="w-64" align="start">
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
             <Link href="/settings/profile">

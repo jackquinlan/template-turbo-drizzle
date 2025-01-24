@@ -26,11 +26,14 @@ export async function signUpWithCredentialsAction(
     throw new Error("User already exists");
   }
 
-  const newUser = await db.insert(users).values({
-    email,
-    name,
-    hashedPassword: await hashPassword(password),
-  }).returning();
+  const newUser = await db
+    .insert(users)
+    .values({
+      email,
+      name,
+      hashedPassword: await hashPassword(password),
+    })
+    .returning();
 
   try {
     const token = await createVerificationToken(email, newUser[0].id);

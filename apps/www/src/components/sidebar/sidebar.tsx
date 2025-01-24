@@ -16,9 +16,7 @@ import {
 } from "@repo/ui/components/sidebar";
 import { UserButton } from "@/components/sidebar/user-button";
 
-const items = [
-  { href: "/", label: "Dashboard", icon: LayoutDashboard },
-];
+const items = [{ href: "/", label: "Dashboard", icon: LayoutDashboard }];
 
 export function AppSidebar({ user }: { user: User }) {
   const path = usePathname();

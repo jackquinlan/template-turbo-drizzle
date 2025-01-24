@@ -6,7 +6,6 @@ import { db, eq, accounts } from "@repo/database";
 
 import { EmailForm } from "@/components/settings/email-form";
 
-
 export default async function ProfileSettingsPage() {
   const session = await auth();
   if (!session) {
@@ -18,9 +17,10 @@ export default async function ProfileSettingsPage() {
 
   return (
     <div className="flex flex-col space-y-4">
-      <EmailForm 
-        currentUser={session.user} 
-        provider={hasProvider?.provider === "github" ? "GitHub" : undefined} />
+      <EmailForm
+        currentUser={session.user}
+        provider={hasProvider?.provider === "github" ? "GitHub" : undefined}
+      />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useTransition, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { z } from "zod";
 
@@ -22,6 +23,8 @@ import { signInWithCredentialsAction } from "@/actions/auth/login";
 import { Loading } from "@/components/loading";
 
 export function LoginForm() {
+  const params = useSearchParams();
+  const callbackUrl = params.get("callbackUrl");
   const [isLoading, startTransition] = useTransition();
   const [error, setError] = useState<string>("");
   const [message, setMessage] = useState<string>("");
@@ -35,7 +38,7 @@ export function LoginForm() {
     setMessage("");
     setError("");
     startTransition(async () => {
-      signInWithCredentialsAction(data)
+      signInWithCredentialsAction(data, callbackUrl)
         .then((res) => {
           if (res?.message) setMessage(res.message);
         })

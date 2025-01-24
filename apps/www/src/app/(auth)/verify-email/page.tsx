@@ -56,11 +56,11 @@ export default async function VerifyEmailPage(props: {
                 </div>
               ) : (
                 <div className="flex flex-col gap-3 space-y-2">
-                  <Alert variant="success">
-                    Your email has been verified!
-                  </Alert>
+                  <Alert variant="success">Your email has been verified!</Alert>
                   <Button asChild className="w-full">
-                    <Link href="/login">{session?.user ? "Back" : "Sign in"}</Link>
+                    <Link href="/login">
+                      {session?.user ? "Back" : "Sign in"}
+                    </Link>
                   </Button>
                 </div>
               )}

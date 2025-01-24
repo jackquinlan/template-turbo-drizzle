@@ -11,7 +11,12 @@ export function Providers({
 }>) {
   return (
     <SessionProvider>
-      <NextThemesProvider attribute="class" defaultTheme="light" enableColorScheme disableTransitionOnChange>
+      <NextThemesProvider
+        attribute="class"
+        defaultTheme="light"
+        enableColorScheme
+        disableTransitionOnChange
+      >
         {children}
       </NextThemesProvider>
     </SessionProvider>

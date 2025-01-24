@@ -27,6 +27,10 @@ export const updatePasswordSchema = z
   });
 
 export const updateEmailSchema = z.object({
+  newEmail: z.string().email(),
   userId: z.string().uuid(),
-  email: z.string().email(),
+});
+
+export const updateProfileSchema = z.object({
+  name: z.string().min(3, { message: "Name must be at least 3 characters" }),
 });

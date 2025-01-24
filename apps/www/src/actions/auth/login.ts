@@ -13,6 +13,7 @@ import { VerifyEmailTemplate } from "@repo/emails/templates/verify";
 
 export async function signInWithCredentialsAction(
   values: z.infer<typeof signInWithCredentialsSchema>,
+  callbackUrl?: string | null,
 ) {
   const validatedFields = signInWithCredentialsSchema.safeParse(values);
   if (!validatedFields.success) {
@@ -44,7 +45,7 @@ export async function signInWithCredentialsAction(
     await signIn("credentials", {
       email,
       password,
-      redirectTo: "/",
+      redirectTo: callbackUrl || "/",
     });
   } catch (error) {
     if (error instanceof AuthError) {
