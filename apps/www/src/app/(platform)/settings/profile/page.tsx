@@ -5,6 +5,7 @@ import { auth } from "@repo/auth/next-auth-options";
 import { db, eq, accounts } from "@repo/database";
 
 import { EmailForm } from "@/components/settings/email-form";
+import { NameForm } from "@/components/settings/name-form";
 
 export default async function ProfileSettingsPage() {
   const session = await auth();
@@ -21,6 +22,7 @@ export default async function ProfileSettingsPage() {
         currentUser={session.user}
         provider={hasProvider?.provider === "github" ? "GitHub" : undefined}
       />
+      <NameForm currentUser={session.user} />
     </div>
   );
 }

@@ -24,7 +24,7 @@ import {
 import { Alert } from "@repo/ui/components/alert";
 import { Input } from "@repo/ui/components/input";
 import { updateEmailSchema } from "@repo/auth/validators";
-import { sendUpdateEmailVerificationAction } from "@/actions/auth/settings";
+import { sendUpdateEmailVerificationAction } from "@/actions/auth/verify-email";
 import { Loading } from "@/components/loading";
 
 export function EmailForm({
@@ -93,7 +93,7 @@ export function EmailForm({
           <CardFooter className="border-t text-xs p-4">
             {!provider ? (
               <Button type="submit" size="sm" disabled={isLoading}>
-                {isLoading ? <Loading size="sm" /> : "Update email"}
+                {isLoading ? <Loading size="sm" /> : "Send verification email"}
               </Button>
             ) : (
               <span>

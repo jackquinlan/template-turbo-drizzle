@@ -52,11 +52,19 @@ export default {
         },
       };
     },
-    jwt: async ({ token }) => {
+    jwt: async ({ token, trigger, session }) => {
       const user = await db.query.users.findFirst({
         where: eq(users.email, token.email),
       });
       if (!user) {
+        return token;
+      }
+      if (trigger === "update") {
+        token.user = {
+          ...user,
+          email: session.user.email,
+        };
+        console.log(token);
         return token;
       }
       return {
