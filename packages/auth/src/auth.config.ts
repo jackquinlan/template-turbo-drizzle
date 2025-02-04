@@ -47,6 +47,7 @@ export default {
         ...session,
         user: {
           id: token.id,
+          emailVerified: token.emailVerified,
           email: token.email,
           name: token.name,
         },
@@ -62,28 +63,17 @@ export default {
       if (trigger === "update") {
         token.user = {
           ...user,
+          emailVerified: session.user.emailVerified,
           email: session.user.email,
         };
-        console.log(token);
         return token;
       }
       return {
         id: user.id,
+        emailVerified: user.emailVerified,
         email: user.email,
         name: user.name,
       } as JWT;
-    },
-    signIn: async ({ user, account }) => {
-      if (account?.provider !== "credentials") return true;
-
-      if (!user.id) return false;
-      const existingUser = await db.query.users.findFirst({
-        where: eq(users.id, user.id),
-      });
-      // Prevent sign in for users without email verified
-      if (!existingUser?.emailVerified) return false;
-
-      return true;
     },
   },
   events: {

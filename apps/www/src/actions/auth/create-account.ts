@@ -1,10 +1,12 @@
 "use server";
 
+import { AuthError } from "next-auth";
 import { z } from "zod";
 
 import { db, eq, users } from "@repo/database";
 import { getBaseUrl } from "@/lib/utils";
 import { signUpWithCredentialsSchema } from "@repo/auth/validators";
+import { signIn } from "@repo/auth/next-auth-options";
 import { hashPassword } from "@repo/auth/crypto";
 import { createVerificationToken } from "@repo/auth/lib/verification-token";
 import { sendEmail } from "@repo/emails/send";
@@ -47,5 +49,22 @@ export async function signUpWithCredentialsAction(
   } catch (error) {
     throw new Error("Error sending verification email.");
   }
-  return { message: "Verification email sent" };
+  // Sign in and redirect to dashboard
+  try {
+    await signIn("credentials", {
+      email,
+      password,
+      redirectTo: "/",
+    });
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CredentialsSignin":
+          throw new Error("Incorrect email or password");
+        default:
+          throw new Error("User not found");
+      }
+    }
+    throw error;
+  }
 }

@@ -24,7 +24,7 @@ export async function signInWithCredentialsAction(
     where: eq(users.email, email),
   });
   if (!existingUser || !existingUser.email || !existingUser.hashedPassword) {
-    throw new Error("Invalid credentials");
+    throw new Error("Invalid email or password");
   }
 
   if (!existingUser.emailVerified) {
@@ -38,7 +38,6 @@ export async function signInWithCredentialsAction(
       to: [email],
       from: "no-reply@jackquinlan.me",
     });
-    return { message: "Verification email sent" };
   }
 
   try {

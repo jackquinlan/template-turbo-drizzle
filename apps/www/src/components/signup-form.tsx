@@ -23,7 +23,6 @@ import { Loading } from "@/components/loading";
 
 export function SignupForm() {
   const [error, setError] = useState<string>("");
-  const [message, setMessage] = useState<string>("");
   const [isLoading, startTransition] = useTransition();
   const form = useZodForm({
     schema: signUpWithCredentialsSchema,
@@ -32,15 +31,12 @@ export function SignupForm() {
   async function handleSubmit(
     data: z.infer<typeof signUpWithCredentialsSchema>,
   ) {
-    setMessage("");
     setError("");
     startTransition(async () => {
       signUpWithCredentialsAction(data)
-        .then((res) => {
-          if (res.message) setMessage(res.message);
-        })
         .catch((error) => {
-          setError(error.message);
+          if (error.message !== "NEXT_REDIRECT")
+            setError(error.message);
         });
     });
   }
@@ -101,7 +97,6 @@ export function SignupForm() {
           )}
         />
         {error && <Alert variant="destructive">{error}</Alert>}
-        {message && <Alert variant="success">{message}</Alert>}
         <Button type="submit" className="w-full my-2" disabled={isLoading}>
           {isLoading ? <Loading /> : "Create account"}
         </Button>

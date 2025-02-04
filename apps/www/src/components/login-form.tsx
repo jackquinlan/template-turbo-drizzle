@@ -27,7 +27,6 @@ export function LoginForm() {
   const callbackUrl = params.get("callbackUrl");
   const [isLoading, startTransition] = useTransition();
   const [error, setError] = useState<string>("");
-  const [message, setMessage] = useState<string>("");
   const form = useZodForm({
     schema: signInWithCredentialsSchema,
     defaultValues: { email: "", password: "" },
@@ -35,15 +34,12 @@ export function LoginForm() {
   async function handleSubmit(
     data: z.infer<typeof signInWithCredentialsSchema>,
   ) {
-    setMessage("");
     setError("");
     startTransition(async () => {
       signInWithCredentialsAction(data, callbackUrl)
-        .then((res) => {
-          if (res?.message) setMessage(res.message);
-        })
         .catch((error) => {
-          setError(error.message);
+          if (error.message !== "NEXT_REDIRECT")
+            setError(error.message);
         });
     });
   }
@@ -90,7 +86,6 @@ export function LoginForm() {
           )}
         />
         {error && <Alert variant="destructive">{error}</Alert>}
-        {message && <Alert variant="success">{message}</Alert>}
         <Button type="submit" className="w-full my-2" disabled={isLoading}>
           {isLoading ? <Loading size="sm" /> : "Sign in"}
         </Button>

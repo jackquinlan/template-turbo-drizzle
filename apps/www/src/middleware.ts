@@ -29,8 +29,6 @@ export default auth((req) => {
     const encodedCallbackUrl = encodeURIComponent(callbackUrl);
     return NextResponse.redirect(new URL(`/login?callbackUrl=${encodedCallbackUrl}`, nextUrl));
   }
-
-  return NextResponse.next();
 });
 
 export const config = {

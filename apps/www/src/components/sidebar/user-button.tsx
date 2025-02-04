@@ -7,7 +7,6 @@ import {
   CircleUserIcon,
   SunIcon,
   MoonIcon,
-  Sun,
   LogOutIcon,
 } from "lucide-react";
 import { useTheme } from "next-themes";
@@ -27,7 +26,7 @@ export function UserButton({ user }: { user: User }) {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="outline-none flex items-center rounded-lg hover:bg-muted">
+      <DropdownMenuTrigger className="outline-none flex items-center rounded-md hover:bg-muted">
         <div className="outline-none flex items-center p-2 gap-2">
           <Avatar className="w-8 h-8">
             <AvatarFallback className="border-border border bg-sidebar-primary text-sidebar-primary-foreground" />

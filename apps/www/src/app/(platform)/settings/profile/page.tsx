@@ -5,6 +5,7 @@ import { auth } from "@repo/auth/next-auth-options";
 import { db, eq, accounts } from "@repo/database";
 
 import { EmailForm } from "@/components/settings/email-form";
+import { ResetPasswordCard } from "@/components/settings/reset-password-card";
 import { NameForm } from "@/components/settings/name-form";
 
 export default async function ProfileSettingsPage() {
@@ -15,7 +16,6 @@ export default async function ProfileSettingsPage() {
   const hasProvider = await db.query.accounts.findFirst({
     where: eq(accounts.userId, session.user.id),
   });
-
   return (
     <div className="flex flex-col space-y-4">
       <EmailForm
@@ -23,6 +23,9 @@ export default async function ProfileSettingsPage() {
         provider={hasProvider?.provider === "github" ? "GitHub" : undefined}
       />
       <NameForm currentUser={session.user} />
+      {!hasProvider && (
+        <ResetPasswordCard email={session.user.email} />
+      )}
     </div>
   );
 }

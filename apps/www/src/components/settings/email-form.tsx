@@ -23,6 +23,7 @@ import {
 } from "@repo/ui/components/form";
 import { Alert } from "@repo/ui/components/alert";
 import { Input } from "@repo/ui/components/input";
+import { Badge } from "@repo/ui/components/badge";
 import { updateEmailSchema } from "@repo/auth/validators";
 import { sendUpdateEmailVerificationAction } from "@/actions/auth/verify-email";
 import { Loading } from "@/components/loading";
@@ -37,6 +38,7 @@ export function EmailForm({
   const [isLoading, startTransition] = useTransition();
   const [error, setError] = useState<string>("");
   const [message, setMessage] = useState<string>("");
+  const [resendClicked, setResendClicked] = useState<boolean>(false);
   const form = useZodForm({
     schema: updateEmailSchema,
     defaultValues: {
@@ -51,7 +53,23 @@ export function EmailForm({
       if (data.newEmail === currentUser.email) {
         return; // Only update email if different
       }
-      sendUpdateEmailVerificationAction(data)
+      sendUpdateEmailVerificationAction(data, false)
+        .then((res) => {
+          if (res?.message) setMessage(res.message);
+        })
+        .catch((error) => {
+          setError(error.message);
+        });
+    });
+  }
+  async function handleResend() {
+    setResendClicked(true);
+    setMessage("");
+    setError("");
+    startTransition(async () => {
+      sendUpdateEmailVerificationAction({
+        newEmail: currentUser.email ?? "", userId: currentUser.id ?? ""
+      }, true)
         .then((res) => {
           if (res?.message) setMessage(res.message);
         })
@@ -65,7 +83,10 @@ export function EmailForm({
       <form onSubmit={form.handleSubmit(handleSubmit)} className="grid gap-4">
         <Card cardBackground={false}>
           <CardHeader className="border-b p-4">
-            <CardTitle>Your email</CardTitle>
+            <CardTitle className="flex items-center gap-x-2">
+              Your email
+              {currentUser.emailVerified ? (<Badge variant="success">Verified</Badge>) : (<Badge variant="warning">Unverified</Badge>)}
+            </CardTitle>
           </CardHeader>
           <CardContent className="p-4 space-y-2">
             <FormField
@@ -87,13 +108,19 @@ export function EmailForm({
                 </FormItem>
               )}
             />
+            {!currentUser.emailVerified && !resendClicked && (
+              <div className="flex items-center text-sm gap-x-2">
+                <p className="text-muted-foreground">Your email is not verified.</p>
+                <Button variant="link" className="p-0" onClick={handleResend}>Resend verification link</Button>
+              </div>
+            )}
             {error && <Alert variant="destructive">{error}</Alert>}
             {message && <Alert variant="success">{message}</Alert>}
           </CardContent>
           <CardFooter className="border-t text-xs p-4">
             {!provider ? (
               <Button type="submit" size="sm" disabled={isLoading}>
-                {isLoading ? <Loading size="sm" /> : "Send verification email"}
+                {isLoading ? <Loading size="sm" /> : "Update"}
               </Button>
             ) : (
               <span>
