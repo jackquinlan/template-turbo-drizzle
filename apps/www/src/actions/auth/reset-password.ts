@@ -38,7 +38,7 @@ export async function sendResetTokenEmailAction(
     react: ResetPasswordTemplate(tokenLink),
     subject: "Reset your password",
     to: [email],
-    from: "no-reply@jackquinlan.me",
+    from: process.env.RESEND_FROM_EMAIL!,
   });
   return {
     message:

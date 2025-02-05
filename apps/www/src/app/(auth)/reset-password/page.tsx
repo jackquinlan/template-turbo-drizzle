@@ -47,7 +47,7 @@ export default async function ResetPasswordPage(props: {
               <hr />
             </CardHeader>
             <CardContent>
-              <div className="grid gap-4">
+              <div className="grid gap-4 -mt-4">
                 {validToken.error ? (
                   <div className="flex flex-col gap-3 space-y-2">
                     <Alert variant="destructive">{validToken.error}</Alert>

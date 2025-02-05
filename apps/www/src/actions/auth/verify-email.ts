@@ -44,7 +44,7 @@ export async function sendUpdateEmailVerificationAction(
     react: VerifyUpdateEmailTemplate(tokenLink),
     subject: "Verify your email",
     to: [newEmail],
-    from: "no-reply@jackquinlan.me",
+    from: process.env.RESEND_FROM_EMAIL!,
   });
   return {
     message: resend

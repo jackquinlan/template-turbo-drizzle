@@ -44,7 +44,7 @@ export async function signUpWithCredentialsAction(
       react: VerifyEmailTemplate(tokenLink),
       subject: "Welcome! Please verify your email",
       to: [email],
-      from: "no-reply@jackquinlan.me",
+      from: process.env.RESEND_FROM_EMAIL!,
     });
   } catch (error) {
     throw new Error("Error sending verification email.");
