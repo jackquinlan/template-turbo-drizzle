@@ -67,9 +67,13 @@ export function EmailForm({
     setMessage("");
     setError("");
     startTransition(async () => {
-      sendUpdateEmailVerificationAction({
-        newEmail: currentUser.email ?? "", userId: currentUser.id ?? ""
-      }, true)
+      sendUpdateEmailVerificationAction(
+        {
+          newEmail: currentUser.email ?? "",
+          userId: currentUser.id ?? "",
+        },
+        true,
+      )
         .then((res) => {
           if (res?.message) setMessage(res.message);
         })
@@ -81,11 +85,15 @@ export function EmailForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="grid gap-4">
-        <Card cardBackground={false}>
+        <Card className="shadow">
           <CardHeader className="border-b p-4">
             <CardTitle className="flex items-center gap-x-2">
               Your email
-              {currentUser.emailVerified ? (<Badge variant="success">Verified</Badge>) : (<Badge variant="warning">Unverified</Badge>)}
+              {currentUser.emailVerified ? (
+                <Badge variant="success">Verified</Badge>
+              ) : (
+                <Badge variant="warning">Unverified</Badge>
+              )}
             </CardTitle>
           </CardHeader>
           <CardContent className="p-4 space-y-2">
@@ -110,8 +118,12 @@ export function EmailForm({
             />
             {!currentUser.emailVerified && !resendClicked && (
               <div className="flex items-center text-sm gap-x-2">
-                <p className="text-muted-foreground">Your email is not verified.</p>
-                <Button variant="link" className="p-0" onClick={handleResend}>Resend verification link</Button>
+                <p className="text-muted-foreground">
+                  Your email is not verified.
+                </p>
+                <Button variant="link" className="p-0" onClick={handleResend}>
+                  Resend verification link
+                </Button>
               </div>
             )}
             {error && <Alert variant="destructive">{error}</Alert>}

@@ -6,7 +6,9 @@ import { auth } from "@repo/auth/next-auth-options";
 import { updateProfileSchema } from "@repo/auth/validators";
 import { db, eq, users } from "@repo/database";
 
-export async function updateProfileSettingsAction(data: z.infer<typeof updateProfileSchema>) {
+export async function updateProfileSettingsAction(
+  data: z.infer<typeof updateProfileSchema>,
+) {
   const validatedFields = updateProfileSchema.safeParse(data);
   if (!validatedFields.success) {
     throw new Error("Invalid data");

@@ -13,7 +13,13 @@ export function OAuthButtonGroup() {
   const callbackUrl = params.get("callbackUrl");
   return (
     <div className="flex flex-col gap-4">
-      <Button variant="outline" className="w-full gap-2" onClick={async () => await signIn("github", { redirectTo: callbackUrl || "/" })}>
+      <Button
+        variant="outline"
+        className="w-full gap-2"
+        onClick={async () =>
+          await signIn("github", { redirectTo: callbackUrl || "/" })
+        }
+      >
         <GitHubLogoIcon className="w-4 h-4" />
         Continue with Github
       </Button>

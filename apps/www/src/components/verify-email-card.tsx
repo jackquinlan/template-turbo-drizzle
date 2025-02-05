@@ -16,11 +16,7 @@ import {
 } from "@repo/ui/components/card";
 import { Button } from "@repo/ui/components/button";
 
-export function VerifyEmailCard({
-  error,
-}: {
-  error?: string
-}) {
+export function VerifyEmailCard({ error }: { error?: string }) {
   return (
     <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6">
       <div className="flex w-full max-w-md flex-col gap-6">
@@ -53,7 +49,10 @@ export function VerifyEmailCard({
               ) : (
                 <div className="flex flex-col gap-3 space-y-2">
                   <Alert variant="success">Your email has been verified!</Alert>
-                  <Button onClick={() => signOut({ redirectTo: "/login" })} className="w-full">
+                  <Button
+                    onClick={() => signOut({ redirectTo: "/login" })}
+                    className="w-full"
+                  >
                     Sign in with verified email
                   </Button>
                 </div>

@@ -1,1 +1,0 @@
-ALTER TABLE `verification_token` ADD `userId` text NOT NULL REFERENCES user(id);

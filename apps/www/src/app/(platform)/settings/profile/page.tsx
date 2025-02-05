@@ -6,6 +6,7 @@ import { db, eq, accounts } from "@repo/database";
 
 import { EmailForm } from "@/components/settings/email-form";
 import { ResetPasswordCard } from "@/components/settings/reset-password-card";
+import { DeleteAccountCard } from "@/components/settings/delete-account-card";
 import { NameForm } from "@/components/settings/name-form";
 
 export default async function ProfileSettingsPage() {
@@ -23,9 +24,8 @@ export default async function ProfileSettingsPage() {
         provider={hasProvider?.provider === "github" ? "GitHub" : undefined}
       />
       <NameForm currentUser={session.user} />
-      {!hasProvider && (
-        <ResetPasswordCard email={session.user.email} />
-      )}
+      {!hasProvider && <ResetPasswordCard currentUser={session.user} />}
+      <DeleteAccountCard currentUser={session.user} />
     </div>
   );
 }

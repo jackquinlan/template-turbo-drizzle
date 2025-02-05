@@ -11,8 +11,8 @@ import { sendEmail } from "@repo/emails/send";
 import { VerifyUpdateEmailTemplate } from "@repo/emails/templates/verify-update-email";
 
 export async function sendUpdateEmailVerificationAction(
-  data: z.infer<typeof updateEmailSchema>, 
-  resend?: boolean
+  data: z.infer<typeof updateEmailSchema>,
+  resend?: boolean,
 ) {
   const validatedFields = updateEmailSchema.safeParse(data);
   if (!validatedFields.success) {
@@ -46,7 +46,9 @@ export async function sendUpdateEmailVerificationAction(
     to: [newEmail],
     from: "no-reply@jackquinlan.me",
   });
-  return { message: 
-    resend ? "Verification email has been resent to your current email." : "A verification email has been sent to your new email. It will not be updated unless the new email is verified. You may need to sign out and back in for it to take effect." 
+  return {
+    message: resend
+      ? "Verification email has been resent to your current email."
+      : "A verification email has been sent to your new email. It will not be updated unless the new email is verified. You may need to sign out and back in for it to take effect.",
   };
 }

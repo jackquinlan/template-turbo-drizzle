@@ -14,6 +14,13 @@ CREATE TABLE `account` (
 	FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
+CREATE TABLE `reset_password_token` (
+	`id` text PRIMARY KEY NOT NULL,
+	`email` text NOT NULL,
+	`token` text NOT NULL,
+	`expires` integer NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE `session` (
 	`session_token` text PRIMARY KEY NOT NULL,
 	`user_id` integer NOT NULL,
@@ -23,6 +30,7 @@ CREATE TABLE `session` (
 --> statement-breakpoint
 CREATE TABLE `user` (
 	`id` text PRIMARY KEY NOT NULL,
+	`hashedPassword` text,
 	`name` text,
 	`emailVerified` integer,
 	`email` text,
@@ -32,7 +40,8 @@ CREATE TABLE `user` (
 CREATE UNIQUE INDEX `user_email_unique` ON `user` (`email`);--> statement-breakpoint
 CREATE TABLE `verification_token` (
 	`identifier` text NOT NULL,
-	`token` text NOT NULL,
+	`token` text PRIMARY KEY NOT NULL,
 	`expires` integer NOT NULL,
-	PRIMARY KEY(`identifier`, `token`)
+	`userId` text NOT NULL,
+	FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade
 );

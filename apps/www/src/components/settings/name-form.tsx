@@ -28,21 +28,17 @@ import { Input } from "@repo/ui/components/input";
 import { updateProfileSettingsAction } from "@/actions/auth/settings";
 import { Loading } from "@/components/loading";
 
-export function NameForm({
-  currentUser,
-}: {
-  currentUser: User;
-}) {
+export function NameForm({ currentUser }: { currentUser: User }) {
   const [isLoading, startTransition] = useTransition();
   const [error, setError] = useState<string>("");
-  
+
   const form = useZodForm({
     schema: updateProfileSchema,
     defaultValues: {
       name: currentUser.name ?? "",
     },
   });
-  
+
   const router = useRouter();
   async function handleSubmit(data: z.infer<typeof updateProfileSchema>) {
     if (data.name === currentUser.name) return;
@@ -61,7 +57,7 @@ export function NameForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="grid gap-4">
-        <Card cardBackground={false}>
+        <Card className="shadow">
           <CardHeader className="border-b p-4">
             <CardTitle>General</CardTitle>
           </CardHeader>

@@ -3,12 +3,7 @@ import Link from "next/link";
 
 import type { User } from "next-auth";
 import { signOut } from "next-auth/react";
-import {
-  CircleUserIcon,
-  SunIcon,
-  MoonIcon,
-  LogOutIcon,
-} from "lucide-react";
+import { CircleUserIcon, SunIcon, MoonIcon, LogOutIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 
 import { Avatar, AvatarFallback } from "@repo/ui/components/avatar";

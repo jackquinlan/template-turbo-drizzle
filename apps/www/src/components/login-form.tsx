@@ -36,11 +36,9 @@ export function LoginForm() {
   ) {
     setError("");
     startTransition(async () => {
-      signInWithCredentialsAction(data, callbackUrl)
-        .catch((error) => {
-          if (error.message !== "NEXT_REDIRECT")
-            setError(error.message);
-        });
+      signInWithCredentialsAction(data, callbackUrl).catch((error) => {
+        if (error.message !== "NEXT_REDIRECT") setError(error.message);
+      });
     });
   }
   return (

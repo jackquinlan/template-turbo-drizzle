@@ -13,7 +13,7 @@ declare module "@auth/core/types" {
   interface User {
     id: string;
     name: string;
-    emailVerified?: string | null; 
+    emailVerified?: string | null;
     email: string;
   }
 }

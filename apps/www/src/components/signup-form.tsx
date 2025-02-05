@@ -33,11 +33,9 @@ export function SignupForm() {
   ) {
     setError("");
     startTransition(async () => {
-      signUpWithCredentialsAction(data)
-        .catch((error) => {
-          if (error.message !== "NEXT_REDIRECT")
-            setError(error.message);
-        });
+      signUpWithCredentialsAction(data).catch((error) => {
+        if (error.message !== "NEXT_REDIRECT") setError(error.message);
+      });
     });
   }
 

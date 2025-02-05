@@ -12,7 +12,5 @@ export default async function VerifyEmailPage(props: {
     return redirect("/");
   }
   const verified = await verifyEmailWithToken(token);
-  return (
-    <VerifyEmailCard error={verified?.error} />
-  );
+  return <VerifyEmailCard error={verified?.error} />;
 }
