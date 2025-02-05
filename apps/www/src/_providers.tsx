@@ -4,6 +4,8 @@ import * as React from "react";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 
+import { TooltipProvider } from "@repo/ui/components/tooltip";
+
 export function Providers({
   children,
 }: Readonly<{
@@ -17,7 +19,9 @@ export function Providers({
         enableColorScheme
         disableTransitionOnChange
       >
-        {children}
+        <TooltipProvider delayDuration={2}>
+          {children}
+        </TooltipProvider>
       </NextThemesProvider>
     </SessionProvider>
   );
